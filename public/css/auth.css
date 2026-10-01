@@ -1,0 +1,46 @@
+/* Login / register — Sangam-style split screen */
+.auth-split {
+  min-height: calc(100vh - 66px);
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 40px;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 30px 24px 70px;
+}
+.auth-left { display: grid; gap: 18px; justify-items: start; }
+.auth-left .logo { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; color: var(--text); }
+.auth-left h1 { font-size: clamp(2.4rem, 4.6vw, 4rem); letter-spacing: -0.03em; line-height: 1.05; }
+.auth-left .muted { max-width: 44ch; }
+.eyebrow {
+  text-transform: uppercase; letter-spacing: 0.14em;
+  font-size: 0.72rem; font-weight: 700; color: var(--muted);
+}
+.free-note { border-top: 1.5px dashed var(--border-dashed); padding-top: 14px; }
+
+.auth-right { display: grid; justify-items: center; }
+.auth-card { width: 100%; max-width: 420px; display: grid; gap: 15px; box-shadow: var(--shadow); }
+.auth-title { font-size: 1.65rem; }
+.auth-tabs { display: flex; gap: 8px; }
+.auth-tabs button {
+  flex: 1; background: var(--card); color: var(--muted); border: 1px solid var(--border);
+  padding: 9px 16px; border-radius: 999px; cursor: pointer; font-size: 0.88rem;
+  font-family: var(--font); font-weight: 600; transition: all 0.2s;
+}
+.auth-tabs button.active { background: var(--accent); color: #fffaf7; border-color: var(--accent); }
+
+.or-divider { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 0.8rem; }
+.or-divider::before, .or-divider::after { content: ''; flex: 1; border-top: 1px dashed var(--border-dashed); }
+
+.gbutton-slot { display: grid; justify-items: center; min-height: 0; }
+.gbutton-slot iframe { border-radius: 999px !important; }
+.google-btn { background: var(--card); color: var(--text); border: 1px solid var(--border-dashed); box-shadow: none; }
+.google-btn:hover { border-color: var(--accent); background: #fff; }
+.google-note { text-align: center; }
+code { background: var(--grey-soft); border-radius: 6px; padding: 1px 6px; font-size: 0.78rem; }
+
+@media (max-width: 900px) {
+  .auth-split { grid-template-columns: 1fr; }
+  .auth-left h1 { font-size: 2.2rem; }
+}

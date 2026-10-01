@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gig — TalentX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/gig-detail.css">
+</head>
+<body>
+  <header class="navbar"></header>
+
+  <main class="container page">
+    <div id="gig-detail"><div class="empty-state">Loading gig…</div></div>
+
+    <section id="owner-section" hidden>
+      <h2>Applicants</h2>
+      <div id="applicants" class="stack"></div>
+
+      <div id="contract-form-box" class="card reveal" hidden>
+        <h3>Create the contract</h3>
+        <p class="muted small">Upload the signed contract PDF and set the agreed amount. The taker then reads it, accepts it, and you deposit the money into escrow.</p>
+        <form id="contract-form" class="form-grid">
+          <div><label for="c-taker">Hiring</label><input id="c-taker" disabled></div>
+          <div class="form-row">
+            <div><label for="c-amount">Agreed amount (₹)</label><input id="c-amount" type="number" min="1" required></div>
+            <div><label for="c-file">Contract PDF (max 10 MB)</label><input id="c-file" type="file" accept="application/pdf" required></div>
+          </div>
+          <button class="btn" type="submit">Upload contract</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="apply-section" class="card reveal" hidden>
+      <h3>Apply for this gig</h3>
+      <form id="apply-form" class="form-grid">
+        <div><label for="message">Short message</label>
+          <textarea id="message" required placeholder="Why you are the right fit, your day rate, availability…"></textarea></div>
+        <button class="btn" type="submit">Send application</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/gig-detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TalentX — where creative work finds its people</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/landing.css">
+</head>
+<body>
+  <header class="navbar"></header>
+
+  <div class="deck" id="deck">
+    <div class="deck-track" id="deck-track">
+
+      <!-- 1 · Hero -->
+      <section class="deck-section hero-screen" data-screen="0">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <h1 class="hero-title" id="hero-title">Where <span class="hl">creative</span> work finds its people.</h1>
+            <p class="muted hero-sub rise d2">
+              Post shoots and casting calls, sign a real contract, and let escrow hold the money
+              until the work is done. Rent gear. Rate everyone. No more chasing payments.
+            </p>
+            <div class="hero-cta rise d3">
+              <a class="btn" href="/pages/gigs.html">Explore TalentX <span class="arrow">&rarr;</span></a>
+              <a class="tlink" href="/pages/gigs.html">Find work <span class="arrow">&#8599;</span></a>
+            </div>
+          </div>
+
+          <div class="hero-art rise d2" aria-hidden="true">
+            <div class="blob"></div>
+            <svg class="doodle spin-slow" width="120" height="120" viewBox="0 0 120 120" fill="none">
+              <circle cx="60" cy="60" r="52" stroke="#7f1d3b" stroke-width="2" stroke-dasharray="4 9" opacity="0.5"/>
+              <circle cx="60" cy="8" r="5" fill="#7f1d3b"/>
+            </svg>
+            <div class="sticker float" style="--tilt:-5deg">
+              <span class="avatar" style="width:44px;height:44px">MK</span>
+              <div><strong>Meera Kapoor</strong><span class="muted small">photographer · Mumbai</span></div>
+              <span class="stars small">★★★★★</span>
+            </div>
+            <div class="sticker float slow" style="--tilt:3deg">
+              <span class="chip maroon">contract signed</span>
+              <strong class="small">lookbook-shoot.pdf</strong>
+              <span class="muted small">escrow holds ₹15,000</span>
+            </div>
+            <div class="sticker float slower" style="--tilt:-2deg">
+              <span class="badge COMPLETED">COMPLETED</span>
+              <strong class="small">50% → 50% released</strong>
+              <span class="muted small">rated 4.8 afterwards</span>
+            </div>
+            <svg class="sparkle float slow" width="46" height="46" viewBox="0 0 46 46" fill="none" style="top:8%;left:6%">
+              <path d="M23 4 L27 19 L42 23 L27 27 L23 42 L19 27 L4 23 L19 19 Z" fill="#f2c49b"/>
+            </svg>
+          </div>
+        </div>
+        <div class="scroll-hint rise d4">
+          <span class="muted small">Scroll to find your people</span>
+          <span class="bob">&darr;</span>
+        </div>
+      </section>
+
+      <!-- 2 · How it works -->
+      <section class="deck-section steps-screen" data-screen="1">
+        <div class="container">
+          <h2 class="screen-title">Make the next shoot <span class="hl">official</span>.</h2>
+          <p class="muted rise d1">One flow, end to end. The money moves only when the work is real.</p>
+          <hr class="dashed-rule rise d1">
+          <div class="steps-row">
+            <div class="step rise d1"><span class="step-num">01</span><h3>Post or apply</h3><p class="muted small">Givers post gigs, takers apply with a short pitch.</p></div>
+            <div class="step rise d2"><span class="step-num">02</span><h3>Sign the contract</h3><p class="muted small">A PDF both sides read and accept. Downloadable forever.</p></div>
+            <div class="step rise d3"><span class="step-num">03</span><h3>Escrow holds it</h3><p class="muted small">The full amount is locked before anyone starts work.</p></div>
+            <div class="step rise d4"><span class="step-num">04</span><h3>50 / 50 payout</h3><p class="muted small">Half after the shoot, half on approval. Disputes go to an admin.</p></div>
+          </div>
+          <div class="steps-note rise d5">
+            <span class="chip maroon">Demo payments</span>
+            <span class="muted small">Escrow is simulated for the MVP — the logic is real, the money isn't.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3 · The network -->
+      <section class="deck-section network-screen" data-screen="2">
+        <div class="container">
+          <div class="network-head">
+            <h2 class="screen-title">The missing piece might be <span class="hl">one gig away</span>.</h2>
+            <a class="tlink rise d1" href="/pages/gigs.html">Browse the board <span class="arrow">&#8599;</span></a>
+          </div>
+          <hr class="dashed-rule rise d1">
+          <div class="card-grid" id="featured"></div>
+        </div>
+      </section>
+
+      <!-- 4 · Stats + CTA -->
+      <section class="deck-section cta-screen" data-screen="3">
+        <div class="container center-screen">
+          <h2 class="screen-title">Ready when <span class="hl">you are</span>.</h2>
+          <p class="muted rise d1">One account to give work, take work and rent gear.</p>
+          <div class="stat-row rise d2">
+            <div class="stat"><span class="stat-num" data-counter="0">0</span><span class="muted small">gigs posted</span></div>
+            <div class="stat"><span class="stat-num" data-counter="0">0</span><span class="muted small">creators on board</span></div>
+            <div class="stat"><span class="stat-num" data-counter="0">0</span><span class="muted small">gear listings</span></div>
+            <div class="stat"><span class="stat-num">50/50</span><span class="muted small">escrow payout</span></div>
+          </div>
+          <div class="hero-cta rise d3">
+            <a class="btn" href="/pages/login.html?mode=register">Create your account <span class="arrow">&rarr;</span></a>
+            <a class="btn secondary" href="/pages/equipment.html">Rent gear</a>
+          </div>
+          <footer class="landing-footer muted small rise d4">
+            TalentX MVP · Node.js + Express + PostgreSQL (Prisma) · payments are simulated ·
+            <a href="/pages/login.html">log in</a>
+          </footer>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- dot navigation, Sangam-style -->
+    <nav class="deck-dots" id="deck-dots" aria-label="Sections"></nav>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/landing.js"></script>
+</body>
+</html>

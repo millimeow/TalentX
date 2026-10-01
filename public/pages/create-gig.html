@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post a gig — TalentX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/create-gig.css">
+</head>
+<body>
+  <header class="navbar"></header>
+
+  <main class="container page narrow">
+    <h1>Post a gig</h1>
+    <p class="muted">Describe the shoot — takers will apply with a short message.</p>
+
+    <form id="gig-form" class="card form-grid reveal">
+      <div><label for="title">Title</label><input id="title" required placeholder="Fashion lookbook shoot"></div>
+      <div><label for="description">Description</label><textarea id="description" required placeholder="What happens on the day, what you provide, what you expect…"></textarea></div>
+      <div class="form-row">
+        <div><label for="discipline">Discipline needed</label>
+          <select id="discipline" required>
+            <option>photographer</option><option>cinematographer</option><option>model</option>
+            <option>director</option><option>editor</option><option>lighting</option>
+            <option>costume</option><option>other</option>
+          </select>
+        </div>
+        <div><label for="city">City</label><input id="city" required placeholder="Mumbai"></div>
+      </div>
+      <div class="form-row">
+        <div><label for="shootDate">Shoot date</label><input id="shootDate" type="date" required></div>
+        <div><label for="budget">Budget (₹)</label><input id="budget" type="number" min="1" required placeholder="15000"></div>
+      </div>
+      <div><label for="peopleNeeded">People needed</label><input id="peopleNeeded" type="number" min="1" value="1"></div>
+      <button class="btn" type="submit">Publish gig</button>
+      <p class="muted small">Free plan: 3 gig posts per month. <a href="/pages/dashboard.html?tab=wallet">Upgrade to PRO</a> for unlimited.</p>
+    </form>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/create-gig.js"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+/* Animations — Sangam-style: full-screen section slides, word-by-word
+   headline reveals, sticker hovers. CSS + a small controller in landing.js. */
+
+/* ---------- Word-by-word headline reveal (hero entrance) ---------- */
+.word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.6em) rotate(2deg);
+  transition: opacity 0.5s ease, transform 0.7s var(--ease-slide);
+}
+.words-in .word { opacity: 1; transform: translateY(0) rotate(0); }
+/* stagger via per-word delay set inline by JS */
+
+/* ---------- Full-screen section deck (the signature wheel-slide) ---------- */
+.deck { height: 100vh; height: 100dvh; overflow: hidden; position: relative; }
+.deck-track {
+  height: 100%;
+  transition: transform 0.95s var(--ease-slide);
+  will-change: transform;
+}
+.deck-section {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* elements inside a section rise in when the section becomes active */
+.rise {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 0.55s ease, transform 0.8s var(--ease-slide);
+}
+.deck-section.active .rise { opacity: 1; transform: translateY(0); }
+.deck-section.active .rise.d1 { transition-delay: 0.12s; }
+.deck-section.active .rise.d2 { transition-delay: 0.24s; }
+.deck-section.active .rise.d3 { transition-delay: 0.36s; }
+.deck-section.active .rise.d4 { transition-delay: 0.48s; }
+.deck-section.active .rise.d5 { transition-delay: 0.6s; }
+
+/* the little dashed doodle underlines draw themselves in */
+.scribble {
+  background-image: linear-gradient(90deg, var(--accent) 50%, transparent 50%);
+  background-size: 10px 2px;
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  padding-bottom: 8px;
+}
+
+/* ---------- Scroll reveal for the normal (non-deck) app pages ---------- */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.55s ease, transform 0.6s var(--ease-slide); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ---------- Floating sticker cards / doodles in the hero art ---------- */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0) rotate(var(--tilt, 0deg)); }
+  50% { transform: translateY(-12px) rotate(var(--tilt, 0deg)); }
+}
+.float { animation: floatY 5.5s ease-in-out infinite; }
+.float.slow { animation-duration: 7.5s; animation-delay: 1.2s; }
+.float.slower { animation-duration: 9s; animation-delay: 2.2s; }
+
+@keyframes spinSlow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spinSlow 22s linear infinite; }
+
+@keyframes dashMarch { to { background-position-x: -20px; } }
+.marching-dots {
+  background-image: linear-gradient(90deg, var(--border-dashed) 55%, transparent 55%);
+  background-size: 10px 2px;
+  background-repeat: repeat-x;
+  animation: dashMarch 1.2s linear infinite;
+}
+
+@keyframes bobDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(7px); }
+}
+.bob { animation: bobDown 1.6s ease-in-out infinite; }
+
+/* ---------- Hover life on cards & links ---------- */
+.card.hoverable, .btn, .tlink, .chip { will-change: transform; }
+.sticker:hover { transform: rotate(-1.2deg) translateY(-4px); }
+
+/* cards lift (kept from base, softened easing) */
+.card.hoverable { transition: transform 0.3s var(--ease-slide), border-color 0.25s ease, box-shadow 0.3s ease; }
+
+/* ---------- Landing counters ---------- */
+@keyframes popIn { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.pop-in { animation: popIn 0.45s var(--ease-slide) both; }
+
+/* ---------- Page enter fade for app pages ---------- */
+body { animation: pageFade 0.4s ease; }
+@keyframes pageFade { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

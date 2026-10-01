@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — TalentX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <header class="navbar"></header>
+
+  <main class="container page">
+    <div class="page-head">
+      <div>
+        <h1>Admin panel</h1>
+        <p class="muted">Disputes and flagged accounts.</p>
+      </div>
+    </div>
+
+    <h2>Disputes</h2>
+    <div id="disputes"><div class="empty-state">Loading…</div></div>
+
+    <h2 style="margin-top:34px">Flagged users</h2>
+    <p class="muted small">Average rating under 2.0 after 5 or more ratings.</p>
+    <div id="flagged"><div class="empty-state">Loading…</div></div>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

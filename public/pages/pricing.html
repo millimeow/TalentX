@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing — TalentX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/pricing.css">
+</head>
+<body>
+  <header class="navbar"></header>
+
+  <main class="container page">
+    <section class="pricing-head reveal">
+      <p class="eyebrow">PRICING</p>
+      <h1>Start free. Go <span class="hl">PRO</span> when you're booking.</h1>
+      <p class="muted">Your first 3 gig posts and 3 applications every month are free, forever. When the
+      gigs start coming back, PRO removes the limits and puts you at the front of the line.</p>
+    </section>
+
+    <section class="plan-cards reveal">
+      <div class="card plan-card" id="plan-free">
+        <div class="plan-top">
+          <h3>Free</h3>
+          <div class="price">₹0<span class="muted small">/forever</span></div>
+        </div>
+        <p class="muted small">For testing the waters — the whole escrow flow is included.</p>
+        <ul class="plan-list">
+          <li>✔ 3 gig posts per month</li>
+          <li>✔ 3 applications per month</li>
+          <li>✔ Contracts, escrow &amp; 50/50 payouts</li>
+          <li>✔ Gear rentals with inspections</li>
+          <li>✔ Mutual ratings &amp; public profile</li>
+          <li class="dim">✕ No verified badge</li>
+          <li class="dim">✕ Standard position in search</li>
+        </ul>
+        <button class="btn secondary block" id="free-btn">You're on this plan</button>
+      </div>
+
+      <div class="card plan-card pro" id="plan-pro">
+        <div class="plan-flag">MOST POPULAR</div>
+        <div class="plan-top">
+          <h3>PRO <span class="badge PRO">PRO</span></h3>
+          <div class="price">₹499<span class="muted small">/month</span></div>
+        </div>
+        <p class="muted small">For creators and organisers who hire and get hired every week.</p>
+        <ul class="plan-list">
+          <li>✔ Unlimited gig posts</li>
+          <li>✔ Unlimited applications</li>
+          <li>✔ Everything in Free — contracts, escrow, rentals</li>
+          <li>✔ Verified <span class="badge PRO">PRO</span> badge on profile &amp; cards</li>
+          <li>✔ Priority position in gig search</li>
+          <li>✔ Featured placement on the landing network</li>
+        </ul>
+        <button class="btn block" id="pro-btn">Go PRO <span class="arrow">&rarr;</span></button>
+        <p class="muted small center">Demo billing — upgrading is a button, not a payment.</p>
+      </div>
+    </section>
+
+    <section class="faq reveal">
+      <hr class="dashed-rule">
+      <h2>Questions, answered</h2>
+      <div class="faq-grid">
+        <div class="faq-item"><h4>Is escrow real money?</h4><p class="muted small">It's a demo wallet. The deposit, 50% release, refunds and dispute splits all move real rows in a real database through real transactions — but the rupees are play money. The UI says "Demo payments" everywhere.</p></div>
+        <div class="faq-item"><h4>What counts as a "post"?</h4><p class="muted small">Publishing a gig on the board. Editing an existing gig is free. Applications count separately — 3 per month on Free.</p></div>
+        <div class="faq-item"><h4>Do limits reset?</h4><p class="muted small">Yes, on the 1st of each month. The counter is per calendar month, not a rolling 30 days.</p></div>
+        <div class="faq-item"><h4>Can I cancel PRO?</h4><p class="muted small">Any time, from the dashboard — you drop back to Free and keep every contract, rating and rupee.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/pricing.js"></script>
+</body>
+</html>

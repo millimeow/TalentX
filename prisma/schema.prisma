@@ -1,0 +1,348 @@
+// TalentX data model — see PRD section 5
+// Money is stored as whole rupees (Int) so the 50/50 split is always exact.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Plan {
+  FREE
+  PRO
+}
+
+enum GigStatus {
+  OPEN
+  HIRED
+  IN_PROGRESS
+  DELIVERED
+  COMPLETED
+  DISPUTED
+  CANCELLED
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum PaymentStatus {
+  HELD
+  RELEASED
+  REFUNDED
+  SPLIT
+}
+
+enum WalletTransactionType {
+  TOPUP
+  ESCROW_IN
+  RELEASE
+  REFUND
+}
+
+enum EquipmentCategory {
+  CAMERA
+  LENS
+  LIGHT
+  AUDIO
+  COSTUME
+  PROP
+  STUDIO
+}
+
+enum RentalStatus {
+  PENDING
+  APPROVED
+  ACTIVE
+  RETURNED
+  DISPUTED
+  CANCELLED
+}
+
+enum InspectionType {
+  PRE
+  POST
+}
+
+enum DisputeStatus {
+  OPEN
+  RESOLVED
+}
+
+enum DisputeDecision {
+  RELEASE_TO_TAKER
+  REFUND_TO_GIVER
+  SPLIT
+  RELEASE_TO_OWNER
+  REFUND_TO_RENTER
+}
+
+model User {
+  id            Int      @id @default(autoincrement())
+  name          String
+  email         String   @unique
+  passwordHash  String
+  role          Role     @default(USER)
+  plan          Plan     @default(FREE)
+  walletBalance Int      @default(0)
+  isSuspended   Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  refreshTokens   RefreshToken[]
+  profile         Profile?
+  portfolioItems  PortfolioItem[]
+  gigs            Gig[]           @relation("Giver")
+  applications    Application[]
+  contractsAsGiver Contract[]     @relation("ContractGiver")
+  contractsAsTaker Contract[]     @relation("ContractTaker")
+  walletTransactions WalletTransaction[]
+  equipment       Equipment[]
+  rentalsAsRenter Rental[]
+  inspections     Inspection[]
+  ratingsGiven    Rating[]        @relation("RatingFrom")
+  ratingsReceived Rating[]        @relation("RatingTo")
+  disputesRaised  Dispute[]
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Profile {
+  id         Int     @id @default(autoincrement())
+  userId     Int     @unique
+  discipline String?
+  city       String?
+  bio        String?
+  dayRate    Int?
+  credits    String? // past credits, plain text
+  gearList   String?
+  photoPath  String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PortfolioItem {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  title     String
+  type      String // PHOTO or VIDEO
+  filePath  String? // photos: path inside uploads/
+  url       String?  // videos: YouTube/Drive link
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Gig {
+  id          Int       @id @default(autoincrement())
+  giverId     Int
+  title       String
+  description String
+  discipline  String
+  city        String
+  shootDate   DateTime
+  budget      Int
+  peopleNeeded Int      @default(1)
+  status      GigStatus @default(OPEN)
+  createdAt   DateTime  @default(now())
+
+  giver       User         @relation("Giver", fields: [giverId], references: [id])
+  applications Application[]
+  contract    Contract?
+  ratings     Rating[]
+  disputes    Dispute[]
+
+  @@index([status])
+  @@index([discipline])
+  @@index([city])
+}
+
+model Application {
+  id          Int               @id @default(autoincrement())
+  gigId       Int
+  applicantId Int
+  message     String
+  status      ApplicationStatus @default(PENDING)
+  createdAt   DateTime          @default(now())
+
+  gig       Gig  @relation(fields: [gigId], references: [id])
+  applicant User @relation(fields: [applicantId], references: [id])
+
+  @@unique([gigId, applicantId])
+  @@index([applicantId])
+}
+
+model Contract {
+  id              Int       @id @default(autoincrement())
+  gigId           Int       @unique
+  giverId         Int
+  takerId         Int
+  pdfPath         String
+  amount          Int
+  takerAccepted   Boolean   @default(false)
+  depositPaid     Boolean   @default(false)
+  shootConfirmed  Boolean   @default(false)
+  deliverablePath String?
+  deliverableUrl  String?
+  deliveredAt     DateTime?
+  completedAt     DateTime?
+  createdAt       DateTime  @default(now())
+
+  gig     Gig      @relation(fields: [gigId], references: [id])
+  giver   User     @relation("ContractGiver", fields: [giverId], references: [id])
+  taker   User     @relation("ContractTaker", fields: [takerId], references: [id])
+  payment Payment?
+
+  @@index([giverId])
+  @@index([takerId])
+}
+
+model Payment {
+  id             Int           @id @default(autoincrement())
+  contractId     Int?          @unique
+  rentalId       Int?          @unique
+  amount         Int // total put into escrow
+  heldAmount     Int           @default(0)
+  releasedAmount Int           @default(0)
+  status         PaymentStatus @default(HELD)
+  createdAt      DateTime      @default(now())
+
+  contract Contract? @relation(fields: [contractId], references: [id])
+  rental   Rental?   @relation(fields: [rentalId], references: [id])
+}
+
+model WalletTransaction {
+  id          Int                   @id @default(autoincrement())
+  userId      Int
+  amount      Int // positive = in, negative = out
+  type        WalletTransactionType
+  referenceId String? // e.g. "contract:12" or "rental:4" or "topup"
+  description String?
+  createdAt   DateTime              @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Equipment {
+  id          Int              @id @default(autoincrement())
+  ownerId     Int
+  name        String
+  category    EquipmentCategory
+  pricePerDay Int
+  deposit     Int              @default(0)
+  city        String
+  description String?
+  imagePath   String?
+  createdAt   DateTime         @default(now())
+
+  owner   User     @relation(fields: [ownerId], references: [id])
+  rentals Rental[]
+
+  @@index([category])
+  @@index([city])
+}
+
+model Rental {
+  id                Int          @id @default(autoincrement())
+  equipmentId       Int
+  renterId          Int
+  startDate         DateTime
+  endDate           DateTime
+  status            RentalStatus @default(PENDING)
+  agreementPdfPath  String?
+  rentAmount        Int? // total for the days, set when owner approves
+  depositAmount     Int?
+  createdAt         DateTime     @default(now())
+
+  equipment   Equipment    @relation(fields: [equipmentId], references: [id])
+  renter      User         @relation(fields: [renterId], references: [id])
+  payment     Payment?
+  inspections Inspection[]
+  ratings     Rating[]
+  disputes    Dispute[]
+
+  @@index([equipmentId])
+  @@index([renterId])
+}
+
+model Inspection {
+  id             Int            @id @default(autoincrement())
+  rentalId       Int
+  type           InspectionType
+  note           String?
+  conditionScore Int // 1 to 5
+  photoPath      String?
+  byUserId       Int
+  createdAt      DateTime       @default(now())
+
+  rental Rental @relation(fields: [rentalId], references: [id])
+  byUser User   @relation(fields: [byUserId], references: [id])
+
+  @@index([rentalId])
+}
+
+model Rating {
+  id                Int      @id @default(autoincrement())
+  fromUserId        Int
+  toUserId          Int
+  gigId             Int?
+  rentalId          Int?
+  professionalism  Int
+  punctuality      Int
+  quality          Int // payment promptness when rating a giver, delivery quality when rating a taker
+  communication    Int
+  equipmentCare    Int? // only for rentals
+  comment           String?
+  createdAt         DateTime @default(now())
+
+  fromUser User  @relation("RatingFrom", fields: [fromUserId], references: [id])
+  toUser   User  @relation("RatingTo", fields: [toUserId], references: [id])
+  gig      Gig?  @relation(fields: [gigId], references: [id])
+  rental   Rental? @relation(fields: [rentalId], references: [id])
+
+  @@unique([gigId, fromUserId])
+  @@unique([rentalId, fromUserId])
+  @@index([toUserId])
+}
+
+model Dispute {
+  id            Int              @id @default(autoincrement())
+  gigId         Int?
+  rentalId      Int?
+  raisedById    Int
+  reason        String
+  status        DisputeStatus    @default(OPEN)
+  decision      DisputeDecision?
+  decidedById   Int?
+  decidedAt     DateTime?
+  createdAt     DateTime         @default(now())
+
+  gig       Gig?     @relation(fields: [gigId], references: [id])
+  rental    Rental?  @relation(fields: [rentalId], references: [id])
+  raisedBy  User     @relation(fields: [raisedById], references: [id])
+
+  @@index([status])
+}

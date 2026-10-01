@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — TalentX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+  <header class="navbar"></header>
+
+  <div class="shell container">
+    <aside class="sidebar card" id="sidebar">
+      <a class="side-brand" href="/pages/index.html">◎ Talent<span class="dot">X</span></a>
+      <nav class="side-nav" id="side-nav"></nav>
+      <div class="side-foot">
+        <div id="side-persona"></div>
+        <button class="btn secondary sm block" onclick="logout()">Log out</button>
+      </div>
+    </aside>
+
+    <main class="side-main">
+      <div class="dash-head">
+        <div>
+          <h1 id="greeting">Welcome back</h1>
+          <p class="muted" id="dash-sub"></p>
+        </div>
+        <div class="dash-head-right" id="dash-head-right"></div>
+      </div>
+      <div id="stats-strip" class="stats-strip"></div>
+      <div id="tab-content"><div class="empty-state">Loading…</div></div>
+    </main>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>

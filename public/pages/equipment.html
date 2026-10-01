@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equipment rental — TalentX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/equipment.css">
+</head>
+<body>
+  <header class="navbar"></header>
+
+  <main class="container page">
+    <div class="page-head">
+      <div>
+        <h1>Equipment rental</h1>
+        <p class="muted">Cameras, lights, costumes, props and studios from verified creators.</p>
+      </div>
+      <a class="btn" href="/pages/dashboard.html?tab=rentals" id="list-gear-link" hidden>List your gear from the dashboard →</a>
+    </div>
+
+    <form id="filters" class="filters reveal">
+      <div class="field"><label for="f-category">Category</label>
+        <select id="f-category">
+          <option value="">All</option>
+          <option>CAMERA</option><option>LENS</option><option>LIGHT</option>
+          <option>AUDIO</option><option>COSTUME</option><option>PROP</option><option>STUDIO</option>
+        </select>
+      </div>
+      <div class="field"><label for="f-city">City</label><input id="f-city" placeholder="Mumbai…"></div>
+      <button class="btn" type="submit">Filter</button>
+    </form>
+
+    <div id="equipment-grid" class="card-grid"></div>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/equipment.js"></script>
+</body>
+</html>

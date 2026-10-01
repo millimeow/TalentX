@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How will you use TalentX? — TalentX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/onboarding.css">
+</head>
+<body>
+  <header class="navbar"></header>
+
+  <main class="onboard-wrap">
+    <p class="eyebrow fade-up">ONE ACCOUNT, TWO HATS</p>
+    <h1 class="fade-up delay-1">How will you use <span class="hl">TalentX</span>?</h1>
+    <p class="muted fade-up delay-2">Pick a starting view — you can switch any time from the dashboard, and nothing is locked away.</p>
+
+    <div class="choices">
+      <button class="choice card hoverable sticker-hover fade-up delay-2" data-persona="talent">
+        <span class="choice-emoji" style="background: var(--pink-soft)">🎨</span>
+        <h2>I'm here to work</h2>
+        <p class="muted small">Talent view — browse the gig board, apply with a pitch, sign contracts and get paid 50% after the shoot, 50% on approval.</p>
+        <span class="tlink">Continue as Talent <span class="arrow">&#8599;</span></span>
+      </button>
+
+      <button class="choice card hoverable sticker-hover fade-up delay-3" data-persona="organizer">
+        <span class="choice-emoji" style="background: var(--blue-chip)">📋</span>
+        <h2>I'm here to hire</h2>
+        <p class="muted small">Organizer view — post shoots and casting calls, review applicants, hold money in escrow and release it as work lands.</p>
+        <span class="tlink">Continue as Organizer <span class="arrow">&#8599;</span></span>
+      </button>
+    </div>
+
+    <a class="muted small fade-up delay-4" href="/pages/dashboard.html">Skip — just take me to the dashboard</a>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/onboarding.js"></script>
+</body>
+</html>

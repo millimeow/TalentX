@@ -1,0 +1,15 @@
+/* Gig detail */
+.stack { display: grid; gap: 12px; margin: 16px 0 26px; }
+.gig-head { display: grid; gap: 10px; }
+.gig-head .top { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.applicant-row {
+  display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+  background: var(--card); border: 1px solid var(--border);
+  padding: 14px 16px; border-radius: var(--radius);
+}
+.applicant-row .who { display: grid; gap: 0; flex: 1; min-width: 200px; }
+.applicant-msg { flex-basis: 100%; color: var(--muted); font-size: 0.9rem; border-left: 2px solid var(--border); padding-left: 12px; }
+.detail-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 18px 0; }
+.detail-meta .box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; }
+.detail-meta .box .k { color: var(--muted); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.detail-meta .box .v { font-weight: 700; }

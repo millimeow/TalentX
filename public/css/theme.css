@@ -1,0 +1,36 @@
+/* TalentX theme — matched to sangamspace.vercel.app
+   cream + dotted grid, ink text, maroon accent, Sora display / Inter body */
+:root {
+  --bg: #f9f6ee;
+  --bg-deep: #f4efe3;
+  --card: #fffdfa;
+  --border: #e6dfcd;
+  --border-dashed: #d9d1bb;
+  --text: #0f172a;       /* ink */
+  --muted: #6b6553;      /* warm grey */
+  --accent: #7f1d3b;     /* maroon */
+  --accent-hover: #6b1832;
+  --accent-soft: rgba(127, 29, 59, 0.08);
+  --accent-glow: rgba(127, 29, 59, 0.18);
+  --peach: #f2c49b;
+  --peach-soft: #f7e3cd;
+  --green: #15803d;
+  --green-soft: #e3f2e6;
+  --amber: #b45309;
+  --amber-soft: #f9ecd9;
+  --red: #b3282d;
+  --red-soft: #fbe5e5;
+  --blue: #1d4ed8;
+  --blue-soft: #e5ecf9;
+  --grey-soft: #eee9dc;
+  --pink-soft: #f7e0e3;  /* pastel avatar chips, like Sangam's */
+  --blue-chip: #dfe7f3;
+  --tan-chip: #efe3cd;
+  --radius: 24px;
+  --radius-sm: 12px;
+  --shadow: 0 14px 40px rgba(15, 23, 42, 0.07);
+  --shadow-hover: 0 20px 48px rgba(15, 23, 42, 0.12);
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Sora', 'Inter', sans-serif;
+  --ease-slide: cubic-bezier(0.76, 0, 0.24, 1);
+}

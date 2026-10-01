@@ -1,0 +1,13 @@
+/* About page */
+.about-hero { max-width: 760px; display: grid; gap: 16px; padding-top: 14px; }
+.about-hero h1 { font-size: clamp(2.2rem, 4.4vw, 3.6rem); letter-spacing: -0.03em; line-height: 1.08; }
+.values { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 34px 0; }
+.story p, .about-hero p { max-width: 68ch; }
+.story { max-width: 760px; }
+.mvp-note {
+  max-width: 760px; margin-top: 34px; padding-top: 22px;
+  border-top: 1.5px dashed var(--border-dashed);
+  display: grid; gap: 12px; justify-items: start;
+}
+.hero-cta { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+@media (max-width: 720px) { .values { grid-template-columns: 1fr; } }

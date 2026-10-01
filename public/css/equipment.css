@@ -1,0 +1,4 @@
+/* Equipment board */
+.equip-img { width: 100%; height: 150px; object-fit: cover; border-radius: var(--radius-sm); margin-bottom: 12px; background: var(--accent-soft); }
+.price-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+.price-row .price { font-weight: 800; color: var(--accent); }

@@ -1,0 +1,21 @@
+/* Persona onboarding */
+.onboard-wrap {
+  min-height: calc(100vh - 66px);
+  display: grid; place-items: center; align-content: center;
+  gap: 16px; text-align: center;
+  padding: 40px 24px 70px;
+}
+.onboard-wrap h1 { font-size: clamp(2rem, 4.4vw, 3.4rem); letter-spacing: -0.03em; }
+.choices {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  margin: 26px 0; width: 100%; max-width: 860px;
+}
+.choice {
+  display: grid; gap: 10px; justify-items: center; text-align: center;
+  padding: 34px 28px; cursor: pointer; font-family: var(--font);
+}
+.choice-emoji {
+  width: 74px; height: 74px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 2rem;
+}
+@media (max-width: 760px) { .choices { grid-template-columns: 1fr; } }

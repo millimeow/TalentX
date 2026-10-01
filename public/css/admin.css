@@ -1,0 +1,4 @@
+/* Admin */
+.dispute-card { display: grid; gap: 10px; margin-bottom: 14px; }
+.dispute-card.resolved { opacity: 0.65; }
+.decisions { display: flex; gap: 10px; flex-wrap: wrap; }
