@@ -1,5 +1,5 @@
 // TalentX end-to-end API test — exercises every flow against a running server.
-// Usage: node /tmp/talentx-e2e.mjs
+// Usage: node /tmp/studiox-e2e.mjs
 const BASE = 'http://localhost:3100/api/v1';
 let passed = 0, failed = 0;
 
@@ -171,8 +171,8 @@ const approveBlocked = await api(`/contracts/${contractD.data.contract.id}/appro
 check('approve blocked while dispute open -> 409', approveBlocked.status === 409);
 
 const admin = await register('Admin E2E', `admin${suffix}@test.io`, 'admin123');
-await fetch(BASE + '/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: 'admin@talentx.test', password: 'admin123' }) });
-const adminLogin = await api('/auth/login', { method: 'POST', body: { email: 'admin@talentx.test', password: 'admin123' } });
+await fetch(BASE + '/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: 'admin@studiox.test', password: 'admin123' }) });
+const adminLogin = await api('/auth/login', { method: 'POST', body: { email: 'admin@studiox.test', password: 'admin123' } });
 const a = adminLogin.data.accessToken;
 const adminForbidden = await api('/admin/disputes', { token: g });
 check('non-admin blocked from admin panel -> 403', adminForbidden.status === 403);
@@ -186,9 +186,9 @@ check('taker got +2000 (half of remaining 4000)', walletT3.data.balance === 2300
 
 console.log('== Rental flow ==');
 const equipList = await api('/equipment?category=CAMERA');
-const equip = equipList.data.equipment[0];
+const equip = equipList.data.equipment.find((e) => e.name.includes("Sony")) || equipList.data.equipment[0];
 check('equipment list works', !!equip);
-const ownerLogin = await api('/auth/login', { method: 'POST', body: { email: 'kabir@talentx.test', password: 'password123' } });
+const ownerLogin = await api('/auth/login', { method: 'POST', body: { email: 'kabir@studiox.test', password: 'password123' } });
 const o = ownerLogin.data.accessToken;
 await api('/wallet/topup', { method: 'POST', token: t, body: { amount: 30000 } });
 const rentalRes = await api('/rentals', { method: 'POST', token: t, body: { equipmentId: equip.id, startDate: '2026-11-01', endDate: '2026-11-04' } });
@@ -221,7 +221,7 @@ check('owner rates renter on rental', rateRental.status === 201);
 
 console.log('== Admin flagged/suspend ==');
 const flagged = await api('/admin/flagged', { token: a });
-check('flagged list contains kabir', flagged.data.flagged.some((u) => u.email === 'kabir@talentx.test'));
+check('flagged list contains kabir', flagged.data.flagged.some((u) => u.email === 'kabir@studiox.test'));
 const suspRes = await api(`/admin/users/${taker.user.id}/suspend`, { method: 'POST', token: a, body: { suspend: true } });
 check('admin suspends taker', suspRes.status === 200);
 const suspendedCall = await api('/wallet', { token: t });

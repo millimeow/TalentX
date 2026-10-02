@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- StudioX mark: ring + maroon dot (matches the in-app logo) -->
+  <circle cx="256" cy="256" r="216" fill="none" stroke="#0f172a" stroke-width="66"/>
+  <circle cx="256" cy="256" r="88" fill="#7f1d3b"/>
+</svg>

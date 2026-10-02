@@ -1,1 +1,13 @@
-/* Gig board */
+/* Gig board — roomy cards */
+.gig-top { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.gig-card h3 { margin: 12px 0 8px; font-size: 1.24rem; }
+.gig-card .clamp { margin-bottom: 14px; }
+.gig-card .giver-row {
+  margin: 14px 0; padding: 12px 14px;
+  background: var(--bg); border-radius: var(--radius-sm);
+}
+.gig-card .meta-row {
+  border-top: 1.5px dashed var(--border-dashed);
+  margin-top: 16px; padding-top: 14px; row-gap: 8px;
+}
+.gig-card .budget { margin-left: auto; font-weight: 800; color: var(--accent); font-size: 1rem; }

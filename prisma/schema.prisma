@@ -1,4 +1,4 @@
-// TalentX data model — see PRD section 5
+// StudioX data model — see PRD section 5
 // Money is stored as whole rupees (Int) so the 50/50 split is always exact.
 
 generator client {

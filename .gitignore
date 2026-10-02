@@ -8,3 +8,5 @@ uploads/deliverables/*
 !uploads/photos/.gitkeep
 !uploads/contracts/.gitkeep
 !uploads/deliverables/.gitkeep
+.vercel
+.env*

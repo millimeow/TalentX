@@ -88,7 +88,7 @@ registerForm.addEventListener('submit', async (e) => {
       },
     });
     session.save(data);
-    toast('Welcome to TalentX!', 'success');
+    toast('Welcome to StudioX!', 'success');
     afterLoginRedirect();
   } catch (err) {
     toast(err.message, 'error');

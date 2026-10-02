@@ -1,7 +1,7 @@
 {
-  "name": "talentx",
+  "name": "studiox",
   "version": "1.0.0",
-  "description": "TalentX - marketplace for the creative industry (MVP)",
+  "description": "StudioX - marketplace for the creative industry (MVP)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

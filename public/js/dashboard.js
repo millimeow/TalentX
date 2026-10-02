@@ -11,19 +11,6 @@ let currentTab = new URLSearchParams(window.location.search).get('tab') || 'over
 // keep the stored user fresh (wallet chip in the navbar)
 refreshStoredUser().then(renderHeader);
 
-// ---------- tiny inline icons (lucide-style strokes) ----------
-const ICONS = {
-  overview: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>',
-  gigs: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>',
-  applications: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.7 4H7.3a2 2 0 0 0-1.8 1.1z"/></svg>',
-  contracts: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>',
-  rentals: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>',
-  wallet: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg>',
-  board: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
-  profile: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
-  admin: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
-};
-
 // ---------- header ----------
 function renderHeader() {
   const u = session.user;
@@ -39,17 +26,13 @@ function renderHeader() {
     ${personaSwitchHtml(persona)}
     <a class="wallet-chip" href="#" data-goto="wallet">&#9670; ${money(u.walletBalance)}</a>`;
 
-  document.getElementById('side-persona').innerHTML = `
-    <p class="muted small" style="padding:0 4px">Viewing as</p>
-    ${personaSwitchHtml(persona)}`;
-
   // persona switch bindings (two copies, same behaviour)
   document.querySelectorAll('.persona-switch button').forEach((btn) => {
     btn.addEventListener('click', () => {
       persona = btn.dataset.persona;
       setPersona(persona);
       renderHeader();
-      renderSidebar();
+      renderGlobalSidebar();
       loadTab();
     });
   });
@@ -57,46 +40,12 @@ function renderHeader() {
     el.addEventListener('click', (e) => { e.preventDefault(); goToTab(el.dataset.goto); });
   });
 
-  renderSidebar();
-}
-
-// ---------- sidebar ----------
-function navItems() {
-  const isOrganizer = persona === 'organizer';
-  const items = [
-    { id: 'overview', label: 'Overview', icon: ICONS.overview },
-    isOrganizer
-      ? { id: 'gigs', label: 'My gigs', icon: ICONS.gigs }
-      : { id: 'applications', label: 'My applications', icon: ICONS.applications },
-    isOrganizer
-      ? { id: 'applications', label: 'Applicants in', icon: ICONS.applications }
-      : { id: 'gigs', label: 'Gigs I applied to', icon: ICONS.gigs },
-    { id: 'contracts', label: 'Contracts', icon: ICONS.contracts },
-    { id: 'rentals', label: isOrganizer ? 'My gear rentals' : 'Rentals', icon: ICONS.rentals },
-    { id: 'wallet', label: 'Wallet', icon: ICONS.wallet },
-    { sep: true },
-    { href: '/pages/gigs.html', label: 'Gig board', icon: ICONS.board, external: true },
-    { href: '/pages/profile.html?id=' + me.id, label: 'My profile', icon: ICONS.profile, external: true },
-  ];
-  if (me.role === 'ADMIN') items.push({ href: '/pages/admin.html', label: 'Admin panel', icon: ICONS.admin, external: true });
-  return items;
-}
-
-function renderSidebar() {
-  const nav = document.getElementById('side-nav');
-  nav.innerHTML = navItems().map((item) => {
-    if (item.sep) return '<div class="sep"></div>';
-    if (item.external) return `<a href="${item.href}">${item.icon}<span>${item.label}</span></a>`;
-    return `<button data-tab="${item.id}" class="${currentTab === item.id ? 'active' : ''}">${item.icon}<span>${item.label}</span></button>`;
-  }).join('');
-  nav.querySelectorAll('[data-tab]').forEach((btn) => {
-    btn.addEventListener('click', () => goToTab(btn.dataset.tab));
-  });
 }
 
 function goToTab(tab) {
   currentTab = tab;
-  renderSidebar();
+  history.replaceState(null, '', '/pages/dashboard.html?tab=' + tab);
+  renderGlobalSidebar();
   loadTab();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }

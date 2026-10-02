@@ -1,4 +1,4 @@
-# TalentX (MVP)
+# StudioX (MVP)
 
 A marketplace for the creative industry: post shoots and casting calls, apply, sign a digital
 contract, pay into **demo escrow**, get paid in two 50% parts, rent gear, and rate each other.
@@ -12,7 +12,7 @@ the PRD v1.0.
 
 ```bash
 # 1. PostgreSQL running locally, then set DATABASE_URL in .env
-#    (default .env points to postgresql://aayushray@localhost:5432/talentx)
+#    (default .env points to postgresql://aayushray@localhost:5432/studiox)
 
 # 2. Install + create schema + seed demo data
 npm install
@@ -44,11 +44,11 @@ Demo accounts (all passwords `password123`, admin `admin123`):
 
 | Account | Email | Notes |
 |---|---|---|
-| Meera | meera@talentx.test | giver, has a completed gig + a delivered gig |
-| Arjun | arjun@talentx.test | taker, wallet has escrow payouts |
-| Zoya | zoya@talentx.test | PRO plan, has an open dispute |
-| Kabir | kabir@talentx.test | gear owner, flagged for review (avg < 2.0) |
-| Admin | admin@talentx.test | admin panel (disputes, flagged, suspend) |
+| Meera | meera@studiox.test | giver, has a completed gig + a delivered gig |
+| Arjun | arjun@studiox.test | taker, wallet has escrow payouts |
+| Zoya | zoya@studiox.test | PRO plan, has an open dispute |
+| Kabir | kabir@studiox.test | gear owner, flagged for review (avg < 2.0) |
+| Admin | admin@studiox.test | admin panel (disputes, flagged, suspend) |
 
 The seed also creates a contract delivered **6 days ago** — the hourly auto-release job completes
 it on server start (PRD 4.4: giver does nothing for 5 days → remaining 50% releases).

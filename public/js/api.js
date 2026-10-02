@@ -54,7 +54,7 @@ async function api(path, { method = 'GET', body, formData } = {}) {
     });
   } catch (err) {
     // network-level failure (server down, wrong port, offline)
-    throw new Error('Cannot reach the TalentX server — is it running on port 3100?');
+    throw new Error('Cannot reach the StudioX server — is it running on port 3100?');
   }
 
   // Access token expired — refresh once and retry
@@ -69,7 +69,7 @@ async function api(path, { method = 'GET', body, formData } = {}) {
           body: formData ? formData : body ? JSON.stringify(body) : undefined,
         });
       } catch (err) {
-        throw new Error('Cannot reach the TalentX server — is it running on port 3100?');
+        throw new Error('Cannot reach the StudioX server — is it running on port 3100?');
       }
     } else {
       // The refresh token is dead too (server restarted, DB reseeded, or 7 days passed).

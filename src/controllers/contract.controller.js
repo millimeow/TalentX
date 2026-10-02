@@ -107,7 +107,7 @@ const downloadContractPdf = asyncHandler(async (req, res) => {
     if (!upstream.ok) throw new AppError('Contract PDF file could not be fetched from storage.', 404);
     const buffer = Buffer.from(await upstream.arrayBuffer());
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename="talentx-contract-${id}.pdf"`);
+    res.setHeader('Content-Disposition', `attachment; filename="studiox-contract-${id}.pdf"`);
     return res.send(buffer);
   }
 
@@ -116,7 +116,7 @@ const downloadContractPdf = asyncHandler(async (req, res) => {
     throw new AppError('Contract PDF file is missing on the server.', 404);
   }
 
-  res.download(absolutePath, `talentx-contract-${id}.pdf`);
+  res.download(absolutePath, `studiox-contract-${id}.pdf`);
 });
 
 // POST /contracts/:id/accept — taker signs by clicking accept

@@ -214,7 +214,7 @@ const downloadAgreement = asyncHandler(async (req, res) => {
     if (!upstream.ok) throw new AppError('Agreement PDF could not be fetched from storage.', 404);
     const buffer = Buffer.from(await upstream.arrayBuffer());
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename="talentx-rental-${id}-agreement.pdf"`);
+    res.setHeader('Content-Disposition', `attachment; filename="studiox-rental-${id}-agreement.pdf"`);
     return res.send(buffer);
   }
 
@@ -222,7 +222,7 @@ const downloadAgreement = asyncHandler(async (req, res) => {
   if (!fs.existsSync(absolutePath)) {
     throw new AppError('Agreement PDF file is missing on the server.', 404);
   }
-  res.download(absolutePath, `talentx-rental-${id}-agreement.pdf`);
+  res.download(absolutePath, `studiox-rental-${id}-agreement.pdf`);
 });
 
 module.exports = { createRental, approveRental, signAndPay, confirmReturn, listMyRentals, getRental, downloadAgreement };

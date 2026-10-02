@@ -260,7 +260,7 @@ async function openPdf(mode) {
     if (mode === 'view') window.open(url, '_blank');
     else {
       const a = document.createElement('a');
-      a.href = url; a.download = `talentx-contract-${contractId}.pdf`;
+      a.href = url; a.download = `studiox-contract-${contractId}.pdf`;
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 5000);
     }
