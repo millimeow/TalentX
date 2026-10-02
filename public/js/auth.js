@@ -21,8 +21,22 @@ tabLogin.addEventListener('click', () => showTab('login'));
 tabRegister.addEventListener('click', () => showTab('register'));
 if (new URLSearchParams(window.location.search).get('mode') === 'register') showTab('register');
 
-// Already logged in? Straight to the (persona-aware) dashboard.
-if (session.accessToken) window.location.href = '/pages/dashboard.html';
+// Coming back with an expired session?
+if (new URLSearchParams(window.location.search).get('expired') === '1') {
+  toast('Your session expired — please log in again.', 'error');
+}
+
+// A stored token only counts if the server still recognises it (the demo DB
+// can be reseeded, which invalidates old sessions).
+(async () => {
+  if (!session.accessToken) return;
+  try {
+    await api('/profile/me');
+    window.location.href = '/pages/dashboard.html';
+  } catch {
+    session.clear(); // stale token — show the login form instead
+  }
+})();
 
 loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();

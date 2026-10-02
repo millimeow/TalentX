@@ -45,22 +45,40 @@ async function api(path, { method = 'GET', body, formData } = {}) {
   if (session.accessToken) headers.Authorization = `Bearer ${session.accessToken}`;
   if (body && !formData) headers['Content-Type'] = 'application/json';
 
-  let res = await fetch(API_BASE + path, {
-    method,
-    headers,
-    body: formData ? formData : body ? JSON.stringify(body) : undefined,
-  });
+  let res;
+  try {
+    res = await fetch(API_BASE + path, {
+      method,
+      headers,
+      body: formData ? formData : body ? JSON.stringify(body) : undefined,
+    });
+  } catch (err) {
+    // network-level failure (server down, wrong port, offline)
+    throw new Error('Cannot reach the TalentX server — is it running on port 3100?');
+  }
 
   // Access token expired — refresh once and retry
   if (res.status === 401 && session.refreshToken && !path.startsWith('/auth/')) {
     const ok = await refreshSession();
     if (ok) {
       headers.Authorization = `Bearer ${session.accessToken}`;
-      res = await fetch(API_BASE + path, {
-        method,
-        headers,
-        body: formData ? formData : body ? JSON.stringify(body) : undefined,
-      });
+      try {
+        res = await fetch(API_BASE + path, {
+          method,
+          headers,
+          body: formData ? formData : body ? JSON.stringify(body) : undefined,
+        });
+      } catch (err) {
+        throw new Error('Cannot reach the TalentX server — is it running on port 3100?');
+      }
+    } else {
+      // The refresh token is dead too (server restarted, DB reseeded, or 7 days passed).
+      // Clear the broken session so the user gets a clean login instead of error spam.
+      session.clear();
+      if (!window.location.pathname.includes('login.html')) {
+        window.location.href = '/pages/login.html?expired=1';
+      }
+      throw new Error('Your session expired. Please log in again.');
     }
   }
 
