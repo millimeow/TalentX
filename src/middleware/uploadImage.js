@@ -3,7 +3,13 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 
-const UPLOADS_DIR = path.join(__dirname, '..', '..', 'uploads');
+// Serverless hosts (Vercel) have a read-only filesystem except /tmp, so files
+// only live for the duration of the request there. Set UPLOAD_DIR to override.
+const UPLOADS_DIR = process.env.UPLOAD_DIR
+  ? process.env.UPLOAD_DIR
+  : process.env.VERCEL
+    ? '/tmp/uploads'
+    : path.join(__dirname, '..', '..', 'uploads');
 
 // Unique file name: timestamp + short random suffix + original extension,
 // so two uploads never overwrite each other.

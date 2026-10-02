@@ -16,6 +16,7 @@ const ratingRoutes = require('./routes/rating.routes');
 const disputeRoutes = require('./routes/dispute.routes');
 const planRoutes = require('./routes/plan.routes');
 const adminRoutes = require('./routes/admin.routes');
+const jobsRoutes = require('./routes/jobs.routes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -25,8 +26,9 @@ app.use(express.json());
 // Uploads: photos and deliverables are public files.
 // uploads/contracts is NOT here on purpose — contract PDFs are only served
 // through GET /api/v1/contracts/:id/pdf after an ownership check.
-app.use('/uploads/photos', express.static(path.join(__dirname, '..', 'uploads', 'photos')));
-app.use('/uploads/deliverables', express.static(path.join(__dirname, '..', 'uploads', 'deliverables')));
+const { UPLOADS_DIR } = require('./middleware/uploadImage');
+app.use('/uploads/photos', express.static(path.join(UPLOADS_DIR, 'photos')));
+app.use('/uploads/deliverables', express.static(path.join(UPLOADS_DIR, 'deliverables')));
 
 // Frontend
 app.use(express.static(path.join(__dirname, '..', 'public')));
@@ -50,6 +52,7 @@ app.use('/api/v1', ratingRoutes);
 app.use('/api/v1', disputeRoutes);
 app.use('/api/v1/plans', planRoutes);
 app.use('/api/v1/admin', adminRoutes);
+app.use('/api/v1/jobs', jobsRoutes);
 
 // 404 for unknown API routes
 app.use('/api', (req, res) => {

@@ -118,6 +118,56 @@ uploads/         photos/ (public), contracts/ (NOT public — auth-checked), del
 - Refresh tokens stored in DB, rotated on refresh, deleted on logout; suspended users blocked
   instantly (authenticate re-reads the user).
 
+## Deploying
+
+The app runs as a normal Node server locally and on Render (`npm start`).
+Vercel is also supported through `api/index.js` + `vercel.json` — but it needs
+a **hosted** database and, for uploads, a host with persistent storage.
+
+### Deploy to Vercel (step by step)
+
+1. **Create a hosted PostgreSQL** — e.g. [Neon](https://neon.tech), Vercel Postgres or Supabase.
+   Copy its connection string (looks like `postgresql://user:pass@host/db?sslmode=require`).
+2. **Import the repo in Vercel** (or run `vercel` in the project folder). The included
+   `vercel.json` routes everything to `api/index.js` and registers a daily cron.
+3. **Set environment variables** in Vercel → Project → Settings → Environment Variables:
+
+   | Variable | Value |
+   |---|---|
+   | `DATABASE_URL` | the hosted Postgres connection string (**never** `localhost` — that's why a fresh deploy 500s on every API call) |
+   | `JWT_ACCESS_SECRET` | any long random string |
+   | `JWT_REFRESH_SECRET` | a different long random string |
+   | `GOOGLE_CLIENT_ID` | optional — enables "Continue with Google" |
+   | `CRON_SECRET` | optional — random string; Vercel cron sends it as a bearer token |
+
+4. **Create the schema + demo data** in the hosted database, from your machine:
+   ```bash
+   DATABASE_URL="<hosted url>" npx prisma migrate deploy
+   DATABASE_URL="<hosted url>" node prisma/seed.js
+   ```
+5. Redeploy. Now a 500 response will *say* what is wrong (missing `DATABASE_URL`,
+   unreachable database, missing JWT secret) instead of a generic message —
+   the function logs in the Vercel dashboard show the full stack trace.
+
+### Deployment caveats
+
+- **Uploads on Vercel**: serverless filesystems are read-only except `/tmp`, so contract
+  PDFs, gear photos and deliverables only exist for the duration of a request there.
+  For the *full* escrow flow with real PDF storage, deploy on **Render with a persistent
+  disk** (the PRD's own suggestion) or wire in blob storage. Everything else works on Vercel.
+- **Auto-release on Vercel**: the 5-day escrow release runs from the `/api/v1/jobs/auto-release`
+  cron in `vercel.json` (daily on the Hobby plan — change the schedule on Pro). Locally and on
+  Render it still runs on server start + every hour.
+- **Google OAuth origins**: add your Vercel domain (e.g. `https://talent-x-vert.vercel.app`)
+  to the authorised JavaScript origins of your Google OAuth client.
+
+### Deploy to Render (full-featured alternative)
+
+1. New Web Service → Node. Build: `npm install && npx prisma migrate deploy`. Start: `npm start`.
+2. Attach a persistent disk mounted at `/opt/render/project/src/uploads` (or set `UPLOAD_DIR`
+   to the disk mount) so uploads survive redeploys.
+3. Set the same environment variables as above.
+
 ## Notes
 
 - Money is stored as whole rupees (integers) so the 50/50 split is always exact.
