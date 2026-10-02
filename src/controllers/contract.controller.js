@@ -1,9 +1,10 @@
-const path = require('path');
-const fs = require('fs');
 const AppError = require('../utils/AppError');
 const asyncHandler = require('../utils/asyncHandler');
 const prisma = require('../utils/prisma');
 const { moveMoney } = require('../utils/wallet');
+const { saveUpload, fileUrl } = require('../utils/storage');
+const path = require('path');
+const fs = require('fs');
 const { UPLOADS_DIR } = require('../middleware/uploadImage');
 
 // POST /contracts (multipart: contract PDF, body: gigId, takerId, amount)
@@ -38,7 +39,7 @@ const createContract = asyncHandler(async (req, res) => {
     throw new AppError('The taker must be the applicant you accepted.', 400);
   }
 
-  const pdfPath = path.relative(UPLOADS_DIR, req.file.path);
+  const pdfPath = await saveUpload(req.file, 'contracts');
 
   const contract = await prisma.contract.create({
     data: { gigId, giverId: req.user.id, takerId, pdfPath, amount },
@@ -87,7 +88,9 @@ const getContract = asyncHandler(async (req, res) => {
   res.status(200).json({ contract });
 });
 
-// GET /contracts/:id/pdf — served only to the giver, the taker and admins
+// GET /contracts/:id/pdf — served only to the giver, the taker and admins.
+// Works for both disk paths (local dev) and blob URLs (Vercel): the blob URL
+// is never exposed — the file is streamed through this auth-checked endpoint.
 const downloadContractPdf = asyncHandler(async (req, res) => {
   const id = Number(req.params.id);
 
@@ -97,6 +100,15 @@ const downloadContractPdf = asyncHandler(async (req, res) => {
   const isParticipant = req.user.id === contract.giverId || req.user.id === contract.takerId;
   if (!isParticipant && req.user.role !== 'ADMIN') {
     throw new AppError('Only the giver, the taker or an admin can open this contract PDF.', 403);
+  }
+
+  if (/^https?:\/\//.test(contract.pdfPath)) {
+    const upstream = await fetch(contract.pdfPath);
+    if (!upstream.ok) throw new AppError('Contract PDF file could not be fetched from storage.', 404);
+    const buffer = Buffer.from(await upstream.arrayBuffer());
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="talentx-contract-${id}.pdf"`);
+    return res.send(buffer);
   }
 
   const absolutePath = path.join(UPLOADS_DIR, contract.pdfPath);
@@ -217,7 +229,7 @@ const deliverContract = asyncHandler(async (req, res) => {
 
   const data = { deliveredAt: new Date() };
   if (req.file) {
-    data.deliverablePath = path.relative(UPLOADS_DIR, req.file.path);
+    data.deliverablePath = await saveUpload(req.file, 'deliverables');
   }
   if (url) {
     if (!/^https?:\/\//.test(url)) {

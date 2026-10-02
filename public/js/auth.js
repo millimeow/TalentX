@@ -26,6 +26,29 @@ if (new URLSearchParams(window.location.search).get('expired') === '1') {
   toast('Your session expired — please log in again.', 'error');
 }
 
+// Deployment self-check: if the database is unreachable (typical for a fresh
+// Vercel deploy without DATABASE_URL), say so right on the login page.
+(async () => {
+  const banner = document.getElementById('health-banner');
+  if (!banner) return;
+  try {
+    const health = await fetch('/api/v1/health').then((r) => r.json());
+    if (health.database !== 'reachable') {
+      banner.hidden = false;
+      banner.className = 'health-banner error';
+      banner.innerHTML = `
+        <strong>⚠️ This deployment can't reach its database.</strong><br>
+        <span class="small">Logins will fail until the admin sets <code>DATABASE_URL</code>
+        (a hosted PostgreSQL — e.g. Neon) in the hosting dashboard's environment
+        variables and redeploys. See the README's "Deploy to Vercel" section.</span>`;
+    } else if (!health.googleOAuth) {
+      banner.hidden = false;
+      banner.className = 'health-banner';
+      banner.innerHTML = `<span class="small muted">Deployment check: database reachable ✓ · uploads: ${escapeHtml(health.uploads)} · Google sign-in: not configured.</span>`;
+    }
+  } catch { /* server unreachable — the form will show the network error */ }
+})();
+
 // A stored token only counts if the server still recognises it (the demo DB
 // can be reseeded, which invalidates old sessions).
 (async () => {

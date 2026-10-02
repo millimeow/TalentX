@@ -2,7 +2,9 @@ const AppError = require('../utils/AppError');
 const asyncHandler = require('../utils/asyncHandler');
 const prisma = require('../utils/prisma');
 const { moveMoney } = require('../utils/wallet');
+const { saveUpload } = require('../utils/storage');
 const path = require('path');
+const fs = require('fs');
 const { UPLOADS_DIR } = require('../middleware/uploadImage');
 
 // POST /rentals — renter requests dates; overlapping approved bookings are blocked
@@ -66,13 +68,14 @@ const approveRental = asyncHandler(async (req, res) => {
     throw new AppError('Please upload the rental agreement PDF.', 400);
   }
 
+  const agreementPdfPath = await saveUpload(req.file, 'contracts');
   const days = Math.max(1, Math.ceil((rental.endDate - rental.startDate) / (24 * 60 * 60 * 1000)));
 
   const updated = await prisma.rental.update({
     where: { id },
     data: {
       status: 'APPROVED',
-      agreementPdfPath: path.relative(UPLOADS_DIR, req.file.path),
+      agreementPdfPath,
       rentAmount: rental.equipment.pricePerDay * days,
       depositAmount: rental.equipment.deposit,
     },
@@ -190,7 +193,8 @@ const getRental = asyncHandler(async (req, res) => {
   res.status(200).json({ rental });
 });
 
-// GET /rentals/:id/agreement — agreement PDF, participants only (contracts/ is not public)
+// GET /rentals/:id/agreement — agreement PDF, participants only (blob URLs are
+// streamed through this auth-checked endpoint and never exposed directly).
 const downloadAgreement = asyncHandler(async (req, res) => {
   const id = Number(req.params.id);
   const rental = await prisma.rental.findUnique({
@@ -205,7 +209,15 @@ const downloadAgreement = asyncHandler(async (req, res) => {
     throw new AppError('Only the owner, the renter or an admin can open the agreement.', 403);
   }
 
-  const fs = require('fs');
+  if (/^https?:\/\//.test(rental.agreementPdfPath)) {
+    const upstream = await fetch(rental.agreementPdfPath);
+    if (!upstream.ok) throw new AppError('Agreement PDF could not be fetched from storage.', 404);
+    const buffer = Buffer.from(await upstream.arrayBuffer());
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="talentx-rental-${id}-agreement.pdf"`);
+    return res.send(buffer);
+  }
+
   const absolutePath = path.join(UPLOADS_DIR, rental.agreementPdfPath);
   if (!fs.existsSync(absolutePath)) {
     throw new AppError('Agreement PDF file is missing on the server.', 404);

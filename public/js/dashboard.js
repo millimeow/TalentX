@@ -296,7 +296,7 @@ function rentalCard(r) {
 
   const inspections = (r.inspections || []).map((i) => `
     <div class="insp-row">
-      ${i.photoPath ? `<img src="/uploads/${i.photoPath}" alt="">` : ''}
+      ${i.photoPath ? `<img src="${escapeHtml(fileUrl(i.photoPath))}" alt="">` : ''}
       <span class="badge ${i.type === 'PRE' ? 'PENDING' : 'HIRED'}">${i.type}</span>
       <span>score ${i.conditionScore}/5 — ${escapeHtml(i.note || 'no note')}</span>
       <span class="small">by ${escapeHtml(i.byUser.name)}</span>

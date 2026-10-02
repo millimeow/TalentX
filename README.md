@@ -142,24 +142,38 @@ a **hosted** database and, for uploads, a host with persistent storage.
 
 4. **Create the schema + demo data** in the hosted database, from your machine:
    ```bash
-   DATABASE_URL="<hosted url>" npx prisma migrate deploy
-   DATABASE_URL="<hosted url>" node prisma/seed.js
+   DATABASE_URL="<hosted url>" npm run db:deploy
    ```
-5. Redeploy. Now a 500 response will *say* what is wrong (missing `DATABASE_URL`,
+
+5. **(Recommended) Make uploads persist** — create a Blob store in your Vercel
+   project (Storage tab → Blob) and set its `BLOB_READ_WRITE_TOKEN` as an
+   environment variable. Contract PDFs, gear photos and deliverables then upload
+   to Vercel Blob and survive forever. Without it, uploads only work for
+   local/Render deployments (read-only filesystem on Vercel). To seed the demo
+   contracts into the hosted DB with working PDFs, include the token:
+   ```bash
+   BLOB_READ_WRITE_TOKEN="<token>" DATABASE_URL="<hosted url>" npm run db:deploy
+   ```
+
+6. Redeploy. Now a 500 response will *say* what is wrong (missing `DATABASE_URL`,
    unreachable database, missing JWT secret) instead of a generic message —
-   the function logs in the Vercel dashboard show the full stack trace.
+   the function logs in the Vercel dashboard show the full stack trace, and the
+   login page itself shows a banner when the database is unreachable
+   (`/api/v1/health` reports the deployment status).
 
 ### Deployment caveats
 
-- **Uploads on Vercel**: serverless filesystems are read-only except `/tmp`, so contract
-  PDFs, gear photos and deliverables only exist for the duration of a request there.
-  For the *full* escrow flow with real PDF storage, deploy on **Render with a persistent
-  disk** (the PRD's own suggestion) or wire in blob storage. Everything else works on Vercel.
+- **Uploads**: with `BLOB_READ_WRITE_TOKEN` set (Vercel Blob), contract PDFs, photos and
+  deliverables persist forever. Without it they work locally and on Render-with-disk, but not
+  on Vercel (read-only serverless filesystem). The storage layer picks automatically —
+  see `src/utils/storage.js`.
 - **Auto-release on Vercel**: the 5-day escrow release runs from the `/api/v1/jobs/auto-release`
   cron in `vercel.json` (daily on the Hobby plan — change the schedule on Pro). Locally and on
   Render it still runs on server start + every hour.
 - **Google OAuth origins**: add your Vercel domain (e.g. `https://talent-x-vert.vercel.app`)
   to the authorised JavaScript origins of your Google OAuth client.
+- **Deployment check**: `GET /api/v1/health` reports database reachability, whether Google
+  OAuth is configured and where uploads are stored — use it to verify any deployment in one call.
 
 ### Deploy to Render (full-featured alternative)
 

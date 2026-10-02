@@ -17,6 +17,7 @@ const disputeRoutes = require('./routes/dispute.routes');
 const planRoutes = require('./routes/plan.routes');
 const adminRoutes = require('./routes/admin.routes');
 const jobsRoutes = require('./routes/jobs.routes');
+const healthRoutes = require('./routes/health.routes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -53,6 +54,7 @@ app.use('/api/v1', disputeRoutes);
 app.use('/api/v1/plans', planRoutes);
 app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1/jobs', jobsRoutes);
+app.use('/api/v1/health', healthRoutes);
 
 // 404 for unknown API routes
 app.use('/api', (req, res) => {

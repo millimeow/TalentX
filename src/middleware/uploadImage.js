@@ -1,23 +1,13 @@
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-const crypto = require('crypto');
 
-// Serverless hosts (Vercel) have a read-only filesystem except /tmp, so files
-// only live for the duration of the request there. Set UPLOAD_DIR to override.
+// Where disk-fallback files live. Serverless hosts (Vercel) have a read-only
+// filesystem except /tmp; persistence there comes from Vercel Blob instead
+// (see src/utils/storage.js). Set UPLOAD_DIR to override.
 const UPLOADS_DIR = process.env.UPLOAD_DIR
   ? process.env.UPLOAD_DIR
   : process.env.VERCEL
     ? '/tmp/uploads'
-    : path.join(__dirname, '..', '..', 'uploads');
-
-// Unique file name: timestamp + short random suffix + original extension,
-// so two uploads never overwrite each other.
-function uniqueName(file) {
-  const ext = path.extname(file.originalname).toLowerCase();
-  const random = crypto.randomBytes(4).toString('hex');
-  return `${Date.now()}-${random}${ext}`;
-}
+    : require('path').join(__dirname, '..', '..', 'uploads');
 
 const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 
@@ -29,27 +19,22 @@ function imageFilter(req, file, cb) {
   }
 }
 
-function imageOptions(folder) {
+// Memory storage: src/utils/storage.js decides where the file actually ends up
+// (Vercel Blob when configured, disk otherwise).
+function imageOptions() {
   return {
-    storage: multer.diskStorage({
-      destination: (req, file, cb) => {
-        const dir = path.join(UPLOADS_DIR, folder);
-        fs.mkdirSync(dir, { recursive: true });
-        cb(null, dir);
-      },
-      filename: (req, file, cb) => cb(null, uniqueName(file)),
-    }),
+    storage: multer.memoryStorage(),
     fileFilter: imageFilter,
     limits: { fileSize: 5 * 1024 * 1024 }, // images up to 5 MB
   };
 }
 
-// All photos (profile, portfolio, gear) go to uploads/photos/.
-const uploadProfileImage = multer(imageOptions('photos'));
-const uploadPortfolioImage = multer(imageOptions('photos'));
-const uploadGearImage = multer(imageOptions('photos'));
+// All photos (profile, portfolio, gear) go to the photos folder.
+const uploadProfileImage = multer(imageOptions());
+const uploadPortfolioImage = multer(imageOptions());
+const uploadGearImage = multer(imageOptions());
 
-// Deliverables get their own folder, served statically as well.
-const uploadDeliverable = multer(imageOptions('deliverables'));
+// Deliverables get their own folder.
+const uploadDeliverable = multer(imageOptions());
 
 module.exports = { uploadProfileImage, uploadPortfolioImage, uploadGearImage, uploadDeliverable, UPLOADS_DIR };

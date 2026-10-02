@@ -9,7 +9,7 @@ if (session.user) document.getElementById('list-gear-link').hidden = false;
 function equipmentCard(e) {
   return `
     <a class="card hoverable" href="/pages/equipment-detail.html?id=${e.id}">
-      ${e.imagePath ? `<img class="equip-img" src="/uploads/${e.imagePath}" alt="${escapeHtml(e.name)}">` : '<div class="equip-img" style="display:grid;place-items:center;font-size:2rem">🎥</div>'}
+      ${e.imagePath ? `<img class="equip-img" src="${escapeHtml(fileUrl(e.imagePath))}" alt="${escapeHtml(e.name)}">` : '<div class="equip-img" style="display:grid;place-items:center;font-size:2rem">🎥</div>'}
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
         <span class="chip">${e.category.toLowerCase()}</span>
         ${e.owner.plan === 'PRO' ? '<span class="badge PRO">PRO</span>' : ''}

@@ -1,8 +1,7 @@
-const path = require('path');
 const AppError = require('../utils/AppError');
 const asyncHandler = require('../utils/asyncHandler');
 const prisma = require('../utils/prisma');
-const { UPLOADS_DIR } = require('../middleware/uploadImage');
+const { saveUpload } = require('../utils/storage');
 
 // POST /portfolio (multipart with photo, or JSON with a video url)
 const addPortfolioItem = asyncHandler(async (req, res) => {
@@ -11,9 +10,9 @@ const addPortfolioItem = asyncHandler(async (req, res) => {
 
   let data;
   if (req.file) {
-    // Photo item — file saved by multer into uploads/photos/
-    const relativePath = path.relative(UPLOADS_DIR, req.file.path);
-    data = { title, type: 'PHOTO', filePath: relativePath };
+    // Photo item — persisted by the storage layer (blob on Vercel, disk locally)
+    const filePath = await saveUpload(req.file, 'photos');
+    data = { title, type: 'PHOTO', filePath };
   } else if (req.body.url) {
     const url = req.body.url;
     if (!/^https?:\/\//.test(url)) {

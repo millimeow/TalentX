@@ -1,8 +1,7 @@
-const path = require('path');
 const AppError = require('../utils/AppError');
 const asyncHandler = require('../utils/asyncHandler');
 const prisma = require('../utils/prisma');
-const { UPLOADS_DIR } = require('../middleware/uploadImage');
+const { saveUpload } = require('../utils/storage');
 
 const CATEGORIES = ['CAMERA', 'LENS', 'LIGHT', 'AUDIO', 'COSTUME', 'PROP', 'STUDIO'];
 
@@ -34,7 +33,7 @@ const createEquipment = asyncHandler(async (req, res) => {
       deposit,
       city,
       description: description || null,
-      imagePath: req.file ? path.relative(UPLOADS_DIR, req.file.path) : null,
+      imagePath: req.file ? await saveUpload(req.file, 'photos') : null,
     },
   });
 

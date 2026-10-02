@@ -89,7 +89,7 @@ function render() {
                 <span class="tick">${s.done ? '✓' : '·'}</span><span class="small">${s.label}</span>
               </li>`).join('')}
           </ul>
-          ${contract.deliveredAt ? `<hr class="divider"><p class="small muted">Deliverable: ${contract.deliverablePath ? `<a href="/uploads/${contract.deliverablePath}" target="_blank">uploaded file</a>` : ''} ${contract.deliverableUrl ? `<a href="${escapeHtml(contract.deliverableUrl)}" target="_blank">link</a>` : ''} (${fmtDate(contract.deliveredAt)})</p>` : ''}
+          ${contract.deliveredAt ? `<hr class="divider"><p class="small muted">Deliverable: ${contract.deliverablePath ? `<a href="${escapeHtml(fileUrl(contract.deliverablePath))}" target="_blank">uploaded file</a>` : ''} ${contract.deliverableUrl ? `<a href="${escapeHtml(contract.deliverableUrl)}" target="_blank">link</a>` : ''} (${fmtDate(contract.deliveredAt)})</p>` : ''}
         </div>
       </div>
     </div>`;

@@ -35,6 +35,13 @@
 
 .gbutton-slot { display: grid; justify-items: center; min-height: 0; }
 .gbutton-slot iframe { border-radius: 999px !important; }
+.health-banner {
+  width: 100%; max-width: 420px;
+  background: var(--amber-soft); border: 1.5px solid var(--amber);
+  border-radius: var(--radius-sm); padding: 14px 18px;
+  font-size: 0.86rem; display: grid; gap: 4px;
+}
+.health-banner.error { background: var(--red-soft); border-color: var(--red); }
 .google-btn { background: var(--card); color: var(--text); border: 1px solid var(--border-dashed); box-shadow: none; }
 .google-btn:hover { border-color: var(--accent); background: #fff; }
 .google-note { text-align: center; }

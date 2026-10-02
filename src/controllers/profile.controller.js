@@ -3,7 +3,7 @@ const AppError = require('../utils/AppError');
 const asyncHandler = require('../utils/asyncHandler');
 const prisma = require('../utils/prisma');
 const { getAverageRating } = require('../utils/ratings');
-const { UPLOADS_DIR } = require('../middleware/uploadImage');
+const { saveUpload } = require('../utils/storage');
 
 function safeUser(user) {
   const { passwordHash, ...safe } = user;
@@ -41,13 +41,13 @@ const uploadMyPhoto = asyncHandler(async (req, res) => {
   if (!req.file) {
     throw new AppError('Please choose an image to upload.', 400);
   }
-  const relativePath = path.relative(UPLOADS_DIR, req.file.path);
+  const photoPath = await saveUpload(req.file, 'photos');
   const profile = await prisma.profile.upsert({
     where: { userId: req.user.id },
-    update: { photoPath: relativePath },
-    create: { userId: req.user.id, photoPath: relativePath },
+    update: { photoPath },
+    create: { userId: req.user.id, photoPath },
   });
-  res.status(200).json({ profile, photoPath: relativePath });
+  res.status(200).json({ profile, photoPath });
 });
 
 // GET /users/:id — public profile with average rating

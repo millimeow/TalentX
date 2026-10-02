@@ -1,8 +1,7 @@
-const path = require('path');
 const AppError = require('../utils/AppError');
 const asyncHandler = require('../utils/asyncHandler');
 const prisma = require('../utils/prisma');
-const { UPLOADS_DIR } = require('../middleware/uploadImage');
+const { saveUpload } = require('../utils/storage');
 
 // POST /rentals/:id/inspection (multipart: photo; body: type, note, conditionScore)
 // Added by both sides: PRE before the gear goes out, POST after it comes back.
@@ -35,7 +34,7 @@ const addInspection = asyncHandler(async (req, res) => {
       type,
       note: note || null,
       conditionScore,
-      photoPath: req.file ? path.relative(UPLOADS_DIR, req.file.path) : null,
+      photoPath: req.file ? await saveUpload(req.file, 'photos') : null,
       byUserId: req.user.id,
     },
     include: { byUser: { select: { id: true, name: true } } },

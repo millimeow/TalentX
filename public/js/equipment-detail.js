@@ -29,7 +29,7 @@ function render() {
   const isOwner = me && me.id === equipment.ownerId;
   box.innerHTML = `
     <div class="card">
-      ${equipment.imagePath ? `<img class="equip-img" src="/uploads/${equipment.imagePath}" alt="${escapeHtml(equipment.name)}">` : ''}
+      ${equipment.imagePath ? `<img class="equip-img" src="${escapeHtml(fileUrl(equipment.imagePath))}" alt="${escapeHtml(equipment.name)}">` : ''}
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
         <span class="chip">${equipment.category.toLowerCase()}</span>
         <span class="muted small">listed by <a href="/pages/profile.html?id=${equipment.owner.id}">${escapeHtml(equipment.owner.name)}</a> · 📍 ${escapeHtml(equipment.city)}</span>

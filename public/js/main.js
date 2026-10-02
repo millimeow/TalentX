@@ -15,10 +15,19 @@ function initials(name) {
 }
 
 function avatarHtml(name, photoPath, size = 34) {
-  if (photoPath) {
-    return `<span class="avatar" style="width:${size}px;height:${size}px"><img src="/uploads/${photoPath}" alt="" style="width:100%;height:100%;object-fit:cover"></span>`;
+  const src = fileUrl(photoPath);
+  if (src) {
+    return `<span class="avatar" style="width:${size}px;height:${size}px"><img src="${escapeHtml(src)}" alt="" style="width:100%;height:100%;object-fit:cover"></span>`;
   }
   return `<span class="avatar" style="width:${size}px;height:${size}px">${escapeHtml(initials(name))}</span>`;
+}
+
+// Stored file paths are either relative (disk: "photos/x.jpg") or full URLs
+// (Vercel Blob). This turns either into a usable src.
+function fileUrl(storedPath) {
+  if (!storedPath) return null;
+  if (/^https?:\/\//.test(storedPath)) return storedPath;
+  return `/uploads/${storedPath}`;
 }
 
 let toastTimer;

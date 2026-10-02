@@ -34,7 +34,15 @@ function makePdf(lines) {
   return Buffer.from(pdf, 'latin1');
 }
 
-function writeUploadFile(folder, filename, content) {
+// Demo files land on disk locally, or in Vercel Blob when BLOB_READ_WRITE_TOKEN
+// is provided — so contract PDFs work on hosted deployments too:
+//   BLOB_READ_WRITE_TOKEN="..." DATABASE_URL="..." node prisma/seed.js
+async function writeUploadFile(folder, filename, content) {
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    const { put } = require('@vercel/blob');
+    const blob = await put(`${folder}/${filename}`, content, { access: 'public', addRandomSuffix: true });
+    return blob.url;
+  }
   const dir = path.join(__dirname, '..', 'uploads', folder);
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, filename), content);
@@ -118,13 +126,13 @@ async function main() {
     status: 'COMPLETED',
   } });
   await prisma.application.create({ data: { gigId: doneGig.id, applicantId: arjun.id, message: 'Available that whole week, happy to share my book.', status: 'ACCEPTED' } });
-  const doneContractPdf = writeUploadFile('contracts', 'seed-contract-1.pdf', makePdf([
+  const doneContractPdf = await writeUploadFile('contracts', 'seed-contract-1.pdf', makePdf([
     'TALENTX CONTRACT', '', 'Parties: Meera Kapoor (Giver) and Arjun Mehta (Taker)',
     'Scope: Actor portfolio portraits, 4 looks, one day.', 'Date of shoot: 10 September 2026',
     'Amount: INR 10000', 'Payout rule: 50% after the shoot, 50% after delivery is approved.',
     'Escrow: full amount held by TalentX until both parts are released.',
   ]));
-  const deliverableFile = writeUploadFile('deliverables', 'seed-deliverable-1.txt', 'Final retouched portraits (demo deliverable).');
+  const deliverableFile = await writeUploadFile('deliverables', 'seed-deliverable-1.txt', 'Final retouched portraits (demo deliverable).');
   const doneContract = await prisma.contract.create({ data: {
     gigId: doneGig.id, giverId: meera.id, takerId: arjun.id, pdfPath: doneContractPdf,
     amount: 10000, takerAccepted: true, depositPaid: true, shootConfirmed: true,
@@ -149,7 +157,7 @@ async function main() {
     status: 'DELIVERED',
   } });
   await prisma.application.create({ data: { gigId: staleGig.id, applicantId: arjun.id, message: 'Love bakery shoots, count me in.', status: 'ACCEPTED' } });
-  const stalePdf = writeUploadFile('contracts', 'seed-contract-2.pdf', makePdf([
+  const stalePdf = await writeUploadFile('contracts', 'seed-contract-2.pdf', makePdf([
     'TALENTX CONTRACT', '', 'Parties: Meera Kapoor (Giver) and Arjun Mehta (Taker)',
     'Scope: Bakery launch reel stills.', 'Amount: INR 6000',
     'Payout rule: 50% after the shoot, 50% after delivery is approved.',
@@ -173,7 +181,7 @@ async function main() {
     status: 'DISPUTED',
   } });
   await prisma.application.create({ data: { gigId: disputedGig.id, applicantId: arjun.id, message: 'I edit weddings regularly, sample on my profile.', status: 'ACCEPTED' } });
-  const disputedPdf = writeUploadFile('contracts', 'seed-contract-3.pdf', makePdf([
+  const disputedPdf = await writeUploadFile('contracts', 'seed-contract-3.pdf', makePdf([
     'TALENTX CONTRACT', '', 'Parties: Zoya Rahman (Giver) and Arjun Mehta (Taker)',
     'Scope: 3-minute wedding highlights edit.', 'Amount: INR 8000',
     'Payout rule: 50% after the shoot, 50% after delivery is approved.',

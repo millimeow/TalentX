@@ -1,3 +1,6 @@
+.env
+.env.local
+.neon
 node_modules/
 uploads/photos/*
 uploads/contracts/*
@@ -5,4 +8,3 @@ uploads/deliverables/*
 !uploads/photos/.gitkeep
 !uploads/contracts/.gitkeep
 !uploads/deliverables/.gitkeep
-.env

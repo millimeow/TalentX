@@ -16,7 +16,7 @@ async function loadProfile() {
       <div class="card">
         <div class="profile-head">
           ${data.profile && data.profile.photoPath
-            ? `<img src="/uploads/${data.profile.photoPath}" class="avatar" style="width:76px;height:76px;border-radius:50%">`
+            ? `<img src="${escapeHtml(fileUrl(data.profile.photoPath))}" class="avatar" style="width:76px;height:76px;border-radius:50%">`
             : `<span class="avatar" style="width:76px;height:76px;font-size:1.4rem">${escapeHtml(initials(data.user.name))}</span>`}
           <div class="info">
             <h1>${escapeHtml(data.user.name)} ${data.user.plan === 'PRO' ? '<span class="badge PRO">PRO</span>' : ''}</h1>
@@ -60,7 +60,7 @@ async function loadPortfolio() {
       ${items.map((item) => `
         <div class="portfolio-item">
           ${item.type === 'PHOTO' && item.filePath
-            ? `<img src="/uploads/${item.filePath}" alt="${escapeHtml(item.title)}">`
+            ? `<img src="${escapeHtml(fileUrl(item.filePath))}" alt="${escapeHtml(item.title)}">`
             : `<div style="height:140px;display:grid;place-items:center;background:var(--accent-soft);font-size:2rem">🎬</div>`}
           <div class="body">
             <span class="small">${item.type === 'VIDEO' ? `<a href="${escapeHtml(item.url)}" target="_blank">${escapeHtml(item.title)}</a>` : escapeHtml(item.title)}</span>

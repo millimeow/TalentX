@@ -1,24 +1,11 @@
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-const { UPLOADS_DIR } = require('./uploadImage');
 
-// Contract and rental-agreement PDFs go to uploads/contracts/.
-// This folder is NOT served statically — PDFs are only sent out through
+// Contract and rental-agreement PDFs. Memory storage; persistence is handled
+// by src/utils/storage.js (Vercel Blob when configured, disk otherwise).
+// uploads/contracts is NOT served statically — PDFs are only sent out through
 // controller endpoints that check the requester is the giver, taker or an admin.
 const uploadPdf = multer({
-  storage: multer.diskStorage({
-    destination: (req, file, cb) => {
-      const dir = path.join(UPLOADS_DIR, 'contracts');
-      fs.mkdirSync(dir, { recursive: true });
-      cb(null, dir);
-    },
-    filename: (req, file, cb) => {
-      const ext = path.extname(file.originalname).toLowerCase();
-      const crypto = require('crypto');
-      cb(null, `${Date.now()}-${crypto.randomBytes(4).toString('hex')}${ext}`);
-    },
-  }),
+  storage: multer.memoryStorage(),
   fileFilter: (req, file, cb) => {
     if (file.mimetype === 'application/pdf') {
       cb(null, true);
