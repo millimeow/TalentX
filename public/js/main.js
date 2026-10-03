@@ -165,6 +165,7 @@ function renderGlobalSidebar() {
       setPersona(btn.dataset.persona);
       renderNavbar(_activeNav);
       toast(`Viewing as ${btn.dataset.persona === 'talent' ? 'Talent' : 'Organizer'}.`, 'success');
+      window.dispatchEvent(new CustomEvent('persona-changed', { detail: btn.dataset.persona }));
     });
   });
 }

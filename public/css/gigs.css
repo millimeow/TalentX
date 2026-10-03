@@ -1,13 +1,25 @@
-/* Gig board — roomy cards */
+/* Gig board — uniform cards: fixed slots, ellipsis on overflow */
 .gig-top { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-.gig-card h3 { margin: 12px 0 8px; font-size: 1.24rem; }
-.gig-card .clamp { margin-bottom: 14px; }
-.gig-card .giver-row {
-  margin: 14px 0; padding: 12px 14px;
-  background: var(--bg); border-radius: var(--radius-sm);
+.gig-card { display: flex; flex-direction: column; }
+.gig-title {
+  margin: 10px 0 8px; font-size: 1.22rem; line-height: 1.25;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  min-height: 2.5em; /* reserve two lines so short titles keep the layout */
 }
+.gig-card .clamp {
+  margin-bottom: 14px;
+  min-height: 3.2em; /* reserve two lines of description space */
+}
+.gig-card .giver-row {
+  margin: 0 0 14px; padding: 12px 14px;
+  background: var(--bg); border-radius: var(--radius-sm);
+  flex-wrap: nowrap; overflow: hidden;
+}
+.gig-card .g-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gig-card .stars-inline { margin-left: auto; flex-shrink: 0; }
 .gig-card .meta-row {
+  margin-top: auto; /* pins the meta row to the bottom of every card */
   border-top: 1.5px dashed var(--border-dashed);
-  margin-top: 16px; padding-top: 14px; row-gap: 8px;
+  padding-top: 14px; row-gap: 8px;
 }
 .gig-card .budget { margin-left: auto; font-weight: 800; color: var(--accent); font-size: 1rem; }

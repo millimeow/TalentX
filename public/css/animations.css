@@ -4,6 +4,7 @@
 /* ---------- Word-by-word headline reveal (hero entrance) ---------- */
 .word {
   display: inline-block;
+  vertical-align: top;
   opacity: 0;
   transform: translateY(0.6em) rotate(2deg);
   transition: opacity 0.5s ease, transform 0.7s var(--ease-slide);

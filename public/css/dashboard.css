@@ -5,17 +5,6 @@
 .dash-head h1 { font-size: 2rem; }
 .dash-head-right { display: flex; gap: 10px; align-items: center; }
 
-.persona-switch {
-  display: inline-flex; background: var(--card); border: 1px solid var(--border);
-  border-radius: 999px; padding: 4px; gap: 4px;
-}
-.persona-switch button {
-  background: transparent; border: none; cursor: pointer;
-  padding: 7px 14px; border-radius: 999px; font-size: 0.82rem; font-weight: 600;
-  color: var(--muted); font-family: var(--font); transition: all 0.2s;
-}
-.persona-switch button.active { background: var(--accent); color: #fffaf7; }
-
 /* stat cards */
 .stats-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 22px 0; }
 .stat-card {

@@ -1,9 +1,16 @@
-/* Equipment board — roomy cards */
+/* Equipment board — uniform cards: fixed slots, ellipsis on overflow */
 .equip-img { width: 100%; height: 180px; object-fit: cover; border-radius: var(--radius-sm); margin-bottom: 16px; background: var(--accent-soft); }
-.equip-card h3 { margin: 10px 0 8px; }
-.equip-card .giver-row { margin: 12px 0 10px; }
+.equip-card { display: flex; flex-direction: column; }
+.equip-card h3 {
+  margin: 10px 0 8px; line-height: 1.25;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  min-height: 2.5em;
+}
+.equip-card .giver-row { margin: 0 0 12px; flex-wrap: nowrap; overflow: hidden; }
+.equip-card .g-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .price-row {
-  display: flex; justify-content: space-between; align-items: center; margin-top: 12px;
+  margin-top: auto; /* price pinned to the bottom of every card */
+  display: flex; justify-content: space-between; align-items: center;
   border-top: 1.5px dashed var(--border-dashed); padding-top: 14px;
 }
 .price-row .price { font-weight: 800; color: var(--accent); font-size: 1.05rem; }

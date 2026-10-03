@@ -46,22 +46,46 @@ function render() {
       ${hasContract ? `<a class="btn ghost" href="/pages/contract.html?id=${gig.contract.id}">Open the contract →</a>` : ''}
     </div>`;
 
-  // --- Owner view: applicants + contract creation ---
+  // --- Persona decides what this page shows ---
+  const persona = getPersona() === 'organizer' ? 'organizer' : 'talent';
+  const ownerNote = document.getElementById('owner-note');
+  const applicantsEl = document.getElementById('applicants');
+  const formBox = document.getElementById('contract-form-box');
+
+  // Owner view: accept applicants + create the contract — Organizer mode only.
   const ownerSection = document.getElementById('owner-section');
-  if (isOwner && !hasContract) {
+  if (isOwner && !hasContract && persona === 'organizer') {
     ownerSection.hidden = false;
+    ownerNote.hidden = true;
+    applicantsEl.hidden = false;
     loadApplicants();
+  } else if (isOwner) {
+    // Your own gig, but you are viewing as Talent: no accepting, no applying.
+    ownerSection.hidden = false;
+    ownerNote.hidden = false;
+    applicantsEl.hidden = true;
+    formBox.hidden = true;
   } else {
     ownerSection.hidden = true;
   }
 
-  // --- Taker view: apply form ---
+  // Apply form: Talent mode only (and never on your own gig).
   const applySection = document.getElementById('apply-section');
   if (!me) {
     applySection.hidden = false;
     applySection.innerHTML = `<p class="muted"><a href="/pages/login.html">Log in</a> to apply for this gig.</p>`;
-  } else if (!isOwner && gig.status === 'OPEN' && !hasContract) {
+  } else if (isOwner) {
+    applySection.hidden = true;
+  } else if (persona === 'organizer') {
     applySection.hidden = false;
+    applySection.innerHTML = `<p class="muted">Applications are made in <strong>Talent</strong> view — switch the persona switch to apply for this shoot.</p>`;
+  } else if (gig.status === 'OPEN' && !hasContract) {
+    applySection.hidden = false;
+    applySection.innerHTML = `<h3>Apply for this gig</h3><form id="apply-form" class="form-grid">
+      <div><label for="message">Short message</label>
+        <textarea id="message" required placeholder="Why you are the right fit, your day rate, availability…"></textarea></div>
+      <button class="btn" type="submit">Send application</button>
+    </form>`;
     bindApplyForm();
   } else {
     applySection.hidden = true;

@@ -1,13 +1,192 @@
-/* About page */
-.about-hero { max-width: 760px; display: grid; gap: 16px; padding-top: 14px; }
-.about-hero h1 { font-size: clamp(2.2rem, 4.4vw, 3.6rem); letter-spacing: -0.03em; line-height: 1.08; }
-.values { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 34px 0; }
-.story p, .about-hero p { max-width: 68ch; }
-.story { max-width: 760px; }
-.mvp-note {
-  max-width: 760px; margin-top: 34px; padding-top: 22px;
-  border-top: 1.5px dashed var(--border-dashed);
-  display: grid; gap: 12px; justify-items: start;
+/* About — the founder story, long-scroll */
+/* About — the founder story, long-scroll */
+
+/* ---------- Hero ---------- */
+.about-hero {
+  position: relative; overflow: hidden;
+  padding: 96px 0 110px;
+  background: radial-gradient(ellipse at top left, rgba(127, 29, 59, 0.07), transparent 55%);
 }
-.hero-cta { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
-@media (max-width: 720px) { .values { grid-template-columns: 1fr; } }
+.about-blob {
+  position: absolute; top: -140px; right: -120px;
+  width: 480px; height: 480px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(242, 196, 155, 0.75), rgba(242, 196, 155, 0.12));
+  will-change: transform;
+}
+.about-title {
+  font-size: clamp(2.6rem, 5.8vw, 4.8rem);
+  letter-spacing: -0.03em; line-height: 1.14; max-width: 15ch;
+  margin: 10px 0 20px;
+}
+.about-sub { max-width: 52ch; font-size: 1.05rem; }
+.hero-cta { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-top: 30px; }
+.scroll-cue {
+  display: flex; gap: 8px; justify-content: center; align-items: center;
+  margin-top: 70px;
+}
+
+/* ---------- Marquee of pain ---------- */
+.marquee {
+  border-top: 1.5px dashed var(--border-dashed);
+  border-bottom: 1.5px dashed var(--border-dashed);
+  background: var(--card); overflow: hidden; padding: 14px 0;
+}
+.marquee-track {
+  display: inline-flex; white-space: nowrap; will-change: transform;
+  font-family: var(--font-display); font-weight: 700; font-size: 1.05rem;
+  color: var(--muted); letter-spacing: 0.02em;
+}
+.marquee-track .hl { color: var(--accent); }
+
+/* ---------- Pinned story ---------- */
+.story-pin {
+  min-height: 100vh;
+  display: grid; place-items: center;
+  background:
+    radial-gradient(ellipse at 80% 20%, rgba(127, 29, 59, 0.06), transparent 50%),
+    var(--bg-deep);
+  border-bottom: 1.5px dashed var(--border-dashed);
+  will-change: transform;
+}
+.story-inner { width: 100%; max-width: 780px; padding: 80px 24px; }
+.story-lines {
+  position: relative; display: grid; gap: 26px; margin-top: 30px;
+  padding-left: 44px;
+}
+/* the rail fills downward as you scroll through the story */
+.story-rail {
+  position: absolute; left: 10px; top: 10px; bottom: 10px; width: 2px;
+  background: var(--border-dashed);
+}
+.story-rail-fill {
+  position: absolute; inset: 0; background: var(--accent);
+  transform: scaleY(1); transform-origin: top center;
+  will-change: transform;
+}
+.story-line { position: relative; will-change: transform, opacity; }
+.story-line::before {
+  content: ''; position: absolute; left: -41px; top: 0.5em;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--card);
+  box-shadow: 0 0 0 2px rgba(127, 29, 59, 0.22);
+}
+.story-line {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.5rem, 3.4vw, 2.5rem); line-height: 1.18;
+  letter-spacing: -0.02em; will-change: transform, opacity;
+}
+.story-line em { font-style: normal; color: var(--muted); }
+.big-line { font-size: clamp(2rem, 5vw, 3.4rem); }
+
+/* ---------- Ghost anatomy ---------- */
+.ghost-anatomy { padding: 100px 24px 90px; }
+.section-title { font-size: clamp(1.9rem, 3.6vw, 2.8rem); letter-spacing: -0.02em; }
+.section-sub { margin-top: 10px; }
+.ghost-steps {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  margin-top: 44px; position: relative;
+}
+.ghost-step { position: relative; display: grid; gap: 8px; align-content: start; will-change: transform, opacity; }
+.step-no {
+  font-family: var(--font-display); font-weight: 800; font-size: 0.95rem;
+  color: var(--accent); letter-spacing: 0.06em;
+}
+.ghost-step h3 { font-size: 1.12rem; }
+.stamp {
+  position: absolute; right: 14px; bottom: 14px;
+  font-family: var(--font-display); font-weight: 800; font-size: 1.05rem;
+  letter-spacing: 0.12em; color: var(--red);
+  border: 3px solid var(--red); border-radius: 8px;
+  padding: 4px 12px; transform: rotate(-8deg);
+  background: rgba(251, 229, 229, 0.7); will-change: transform, opacity;
+}
+
+/* ---------- Numbers ---------- */
+.about-numbers {
+  border-top: 1.5px dashed var(--border-dashed); border-bottom: 1.5px dashed var(--border-dashed);
+  background: var(--card); padding: 80px 0;
+}
+.num-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 40px; }
+.num-card {
+  display: grid; gap: 6px; justify-items: start;
+  border-left: 3px solid var(--accent); padding-left: 18px;
+}
+.num {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.9rem, 3.4vw, 2.6rem); color: var(--text); letter-spacing: -0.02em;
+}
+
+/* ---------- Last straw ---------- */
+.last-straw { padding: 110px 24px; }
+.straw-title { font-size: clamp(2rem, 4.4vw, 3.2rem); letter-spacing: -0.02em; max-width: 24ch; }
+.straw-text { max-width: 62ch; display: grid; gap: 18px; margin-top: 26px; font-size: 1.04rem; }
+.straw-quote {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.3rem, 2.6vw, 1.8rem); color: var(--muted);
+  border-left: 4px solid var(--peach); padding-left: 20px;
+}
+.straw-punch { font-size: 1.15rem; }
+
+/* ---------- Compare ---------- */
+.compare { padding: 20px 24px 90px; }
+.compare-list { display: grid; gap: 16px; margin-top: 38px; }
+.compare-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  will-change: transform, opacity;
+}
+.compare-row .old, .compare-row .new {
+  border-radius: 18px; padding: 20px 24px;
+  display: grid; gap: 4px; align-content: center;
+}
+.compare-row .old { background: var(--grey-soft); border: 1.5px dashed var(--border-dashed); }
+.compare-row .new { background: var(--card); border: 2px solid var(--accent); box-shadow: var(--shadow); }
+.compare-row .k {
+  text-transform: uppercase; letter-spacing: 0.08em;
+  font-size: 0.72rem; font-weight: 700; color: var(--muted);
+}
+.compare-row .old p { color: var(--muted); }
+.compare-row .new p { font-weight: 600; }
+.compare-row .new .k { color: var(--accent); }
+
+/* ---------- Principles ---------- */
+.principles { padding: 40px 24px 80px; }
+.values { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 36px; }
+.value-card { display: grid; gap: 6px; will-change: transform, opacity; }
+.value-card h3 { font-size: 1.12rem; }
+
+/* ---------- Flow ---------- */
+.flow { padding: 10px 24px 90px; max-width: 900px; }
+.flow p { margin-top: 16px; }
+
+/* ---------- CTA + footer ---------- */
+.about-cta {
+  border-top: 1.5px dashed var(--border-dashed);
+  background: var(--bg-deep); padding: 90px 0;
+  text-align: center;
+}
+.about-cta h2 { font-size: clamp(2.2rem, 4.4vw, 3.4rem); letter-spacing: -0.02em; }
+.about-cta .muted { margin-top: 12px; }
+.about-cta .hero-cta { justify-content: center; margin-top: 28px; }
+.mvp-note { margin-top: 34px; max-width: 62ch; margin-left: auto; margin-right: auto; }
+.footer { border-top: 1.5px dashed var(--border-dashed); padding: 30px 0; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .story-pin { min-height: auto; padding: 80px 0; }
+  .story-lines { gap: 18px; }
+  .ghost-steps { grid-template-columns: 1fr 1fr; }
+  .num-grid { grid-template-columns: 1fr 1fr; }
+  .compare-row { grid-template-columns: 1fr; }
+  .values { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .ghost-steps { grid-template-columns: 1fr; }
+  .num-grid { grid-template-columns: 1fr; }
+  .about-hero { padding: 70px 0 80px; }
+}
+
+
+/* GSAP drives the hero words here. The shared .word transform/transition
+   (the landing's CSS reveal) would be parsed into GSAP's transform state and
+   leave every word pushed 0.6em down and rotated — so neutralize them. */
+.about-title .word { transform: none; transition: none; }

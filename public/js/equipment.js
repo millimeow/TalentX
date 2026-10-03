@@ -17,7 +17,7 @@ function equipmentCard(e) {
       <h3>${escapeHtml(e.name)}</h3>
       <div class="giver-row">
         ${avatarHtml(e.owner.name, e.owner.profile && e.owner.profile.photoPath, 24)}
-        <span class="small muted">${escapeHtml(e.owner.name)} · ${escapeHtml(e.city)}</span>
+        <span class="small muted g-name">${escapeHtml(e.owner.name)} · ${escapeHtml(e.city)}</span>
       </div>
       <div class="price-row">
         <span class="price">${money(e.pricePerDay)}<span class="muted small">/day</span></span>

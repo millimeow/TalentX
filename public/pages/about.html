@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About us — StudioX</title>
   <link rel="icon" type="image/svg+xml" href="/logo.svg">
   <link rel="alternate icon" type="image/png" href="/favicon.png">
   <link rel="apple-touch-icon" href="/logo-192.png">
-  <title>About us — StudioX</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
@@ -18,44 +18,166 @@
 <body>
   <header class="navbar"></header>
 
-  <main class="container page">
-    <section class="about-hero reveal">
-      <p class="eyebrow">ABOUT STUDIOX</p>
-      <h1>The creative industry has <span class="hl">trust issues</span>. We're the receipt.</h1>
-      <p class="muted">Photographers get ghosted after the shoot. Models wait weeks for payment. Gear gets rented
-      over WhatsApp with nothing in writing. StudioX exists so that none of that is normal — every hire gets a
-      contract, every rupee goes through escrow, and every gig ends with a rating.</p>
-    </section>
+  <div id="smooth-wrapper">
+  <div id="smooth-content">
+    <!-- 1 · Hero -->
+  <section class="about-hero" id="about-hero">
+    <div class="about-blob" aria-hidden="true"></div>
+    <div class="container">
+      <p class="eyebrow">WHY STUDIOX EXISTS</p>
+      <h1 class="about-title" id="about-title">I chased payments for two years. <span class="hl">So I built the receipt.</span></h1>
+      <p class="muted about-sub">I'm a photographer. This is the story behind almost every gig I ever
+      took — and the reason StudioX puts a contract, an escrow and a rating on everything.</p>
+      <div class="hero-cta">
+        <a class="btn" href="/pages/gigs.html">Skip the story — find work <span class="arrow">&rarr;</span></a>
+        <a class="tlink" href="/pages/pricing.html">How pricing works <span class="arrow">&#8599;</span></a>
+      </div>
+    </div>
+    <div class="scroll-cue muted small"><span>Scroll — it gets worse before it gets better</span> <span class="bob">&darr;</span></div>
+  </section>
 
-    <section class="values reveal">
-      <div class="card hoverable"><h3>📄 Every hire is written down</h3><p class="muted small">The giver uploads a contract PDF stating parties, scope, date, amount and the 50/50 rule. The taker reads it and accepts before any money moves.</p></div>
-      <div class="card hoverable"><h3>🔒 Money waits for work</h3><p class="muted small">The full amount is deposited into escrow up front. Half is released when the shoot wraps, half when the delivery is approved — or after 5 days automatically.</p></div>
-      <div class="card hoverable"><h3>⚖️ Disputes have a referee</h3><p class="muted small">If something goes wrong, the remaining money freezes and an admin reads the contract and the evidence: release, refund, or split.</p></div>
-      <div class="card hoverable"><h3>⭐ Reputations compound</h3><p class="muted small">Both sides rate each other after every gig and rental. Reliability shows on your profile — and low ratings get reviewed.</p></div>
-    </section>
+  <!-- 2 · The pain marquee -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>unpaid&nbsp;·&nbsp;ghosted&nbsp;·&nbsp;"next week"&nbsp;·&nbsp;no contract&nbsp;·&nbsp;seen-zoned&nbsp;·&nbsp;free edit?&nbsp;·&nbsp;unpaid&nbsp;·&nbsp;ghosted&nbsp;·&nbsp;"next week"&nbsp;·&nbsp;no contract&nbsp;·&nbsp;seen-zoned&nbsp;·&nbsp;free edit?&nbsp;·&nbsp;</span>
+      <span>unpaid&nbsp;·&nbsp;ghosted&nbsp;·&nbsp;"next week"&nbsp;·&nbsp;no contract&nbsp;·&nbsp;seen-zoned&nbsp;·&nbsp;free edit?&nbsp;·&nbsp;unpaid&nbsp;·&nbsp;ghosted&nbsp;·&nbsp;"next week"&nbsp;·&nbsp;no contract&nbsp;·&nbsp;seen-zoned&nbsp;·&nbsp;free edit?&nbsp;·&nbsp;</span>
+    </div>
+  </div>
 
-    <section class="story reveal">
-      <hr class="dashed-rule">
-      <h2>How it works, in one breath</h2>
-      <p class="muted">Post a gig → creators apply → you accept one and upload the contract → you deposit the full
-      amount into escrow → the shoot happens → 50% releases → the deliverable is approved → the last 50% releases →
-      everyone rates everyone. Gear rental follows the same skeleton with inspections and a refundable deposit.</p>
-    </section>
+  <!-- 3 · The story (pinned, scrubbed) -->
+  <section class="story-pin" id="story-pin">
+    <div class="container story-inner">
+      <p class="eyebrow">THE PART EVERY CREATIVE KNOWS</p>
+      <div class="story-lines">
+        <div class="story-rail" aria-hidden="true"><div class="story-rail-fill"></div></div>
+        <p class="story-line">It always started the same way.</p>
+        <p class="story-line">A DM at 1 AM — <em>"bro, free this weekend? paid work"</em>.</p>
+        <p class="story-line">No contract. No advance. Just trust and a thumbs-up emoji.</p>
+        <p class="story-line">I'd shoot all day. Carry my own gear. Edit till 3 AM.</p>
+        <p class="story-line">Then the four worst words in this industry:</p>
+        <p class="story-line"><span class="hl big-line">"payment next week, bro."</span></p>
+        <p class="story-line">Next week became a month. The month became left-on-read.</p>
+      </div>
+    </div>
+  </section>
 
-    <section class="mvp-note reveal">
-      <span class="chip maroon">Student MVP</span>
-      <p class="muted small">StudioX is a course-built marketplace MVP: Node.js, Express, PostgreSQL with Prisma and a
-      vanilla frontend. Payments are simulated — the escrow logic is real, the rupees aren't. Built as a team project
-      across six phases, from schema to deployment.</p>
+  <!-- 4 · Anatomy of a ghosted gig -->
+  <section class="ghost-anatomy container">
+    <h2 class="section-title">The anatomy of a <span class="hl">ghosted gig</span></h2>
+    <p class="muted section-sub">Four steps. I lived this loop so many times I could storyboard it.</p>
+    <div class="ghost-steps">
+      <div class="ghost-step card">
+        <span class="step-no">01</span>
+        <h3>Found in the DMs</h3>
+        <p class="muted small">Scouting happened in Instagram requests and WhatsApp groups. No profile, no history, no reviews — just vibes.</p>
+      </div>
+      <div class="ghost-step card">
+        <span class="step-no">02</span>
+        <h3>The verbal "guarantee"</h3>
+        <p class="muted small">"Money right after delivery, bhai, guaranteed." The only proof it ever happened: a screenshot of the chat.</p>
+      </div>
+      <div class="ghost-step card">
+        <span class="step-no">03</span>
+        <h3>The shoot goes great</h3>
+        <p class="muted small">A 14-hour day on my feet, my camera, my cards, my patience. Everyone hugs. It feels like a win.</p>
+      </div>
+      <div class="ghost-step card">
+        <span class="step-no">04</span>
+        <h3>Delivery → silence</h3>
+        <p class="muted small">Files sent at 2:47 AM. Typing bubble appears. Then nothing. You were never a client's priority — you were an experiment.</p>
+        <span class="stamp">UNPAID</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · The numbers -->
+  <section class="about-numbers">
+    <div class="container">
+      <h2 class="section-title">My first year, <span class="hl">in numbers</span></h2>
+      <div class="num-grid">
+        <div class="num-card"><span class="num" data-count="18400" data-prefix="₹">₹0</span><span class="muted small">one client still owes me, fourteen months later</span></div>
+        <div class="num-card"><span class="num" data-count="6">0</span><span class="muted small">weeks — the fastest anyone actually "cleared" payment</span></div>
+        <div class="num-card"><span class="num" data-count="0">0</span><span class="muted small">contracts signed across my first 20 gigs</span></div>
+        <div class="num-card"><span class="num" data-count="100" data-suffix="%">0</span><span class="muted small">of my early bookings were arranged over chat</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · The last straw -->
+  <section class="last-straw">
+    <div class="container">
+      <p class="eyebrow">THE TURNING POINT</p>
+      <h2 class="straw-title">The last straw wasn't even <span class="hl">a big one.</span></h2>
+      <div class="straw-text">
+        <p>2 AM. I was three hours into editing a stranger's wedding — the third free revision, because "the vibe
+        wasn't premium enough." My phone lit up. Same client. New message.</p>
+        <p class="straw-quote">"can you also do the teaser? and can we lower the price a little"</p>
+        <p>I didn't get angry. I remember laughing, actually. Because the problem was never that one client.
+        The problem was that <strong>nothing in this industry made honesty the easy option</strong> — not for them, not for me.
+        Verbal promises, scattered chats, no paper trail. We were all just hoping.</p>
+        <p class="straw-punch">So I stopped hoping and started building. If the industry would never hand me a contract,
+        <span class="hl">I'd build the platform that does.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · Old way vs StudioX -->
+  <section class="compare container">
+    <h2 class="section-title">The old way vs <span class="hl">the StudioX way</span></h2>
+    <div class="compare-list">
+      <div class="compare-row"><div class="old"><span class="k">Finding work</span><p>Scattered group chats and lucky DMs</p></div><div class="new"><p>One board, filtered by city, budget and rating</p></div></div>
+      <div class="compare-row"><div class="old"><span class="k">The agreement</span><p>Trust, vibes and screenshots</p></div><div class="new"><p>A contract PDF both sides read and accept</p></div></div>
+      <div class="compare-row"><div class="old"><span class="k">The money</span><p>You chase it for months</p></div><div class="new"><p>Held in escrow — 50% after the shoot, 50% on approval</p></div></div>
+      <div class="compare-row"><div class="old"><span class="k">When it breaks</span><p>You get ghosted, end of story</p></div><div class="new"><p>The money freezes and an admin reads the contract</p></div></div>
+      <div class="compare-row"><div class="old"><span class="k">Reputation</span><p>Start from zero with every new client</p></div><div class="new"><p>Ratings that follow you and compound</p></div></div>
+    </div>
+  </section>
+
+  <!-- 8 · Principles -->
+  <section class="principles container">
+    <h2 class="section-title">What we refuse to <span class="hl">compromise on</span></h2>
+    <div class="values">
+      <div class="value-card card"><h3>📄 Every hire is written down</h3><p class="muted small">The giver uploads a contract PDF stating parties, scope, date, amount and the 50/50 rule. The taker reads it and accepts before any money moves.</p></div>
+      <div class="value-card card"><h3>🔒 Money waits for work</h3><p class="muted small">The full amount is deposited into escrow up front. Half is released when the shoot wraps, half when the delivery is approved — or after 5 days automatically.</p></div>
+      <div class="value-card card"><h3>⚖️ Disputes have a referee</h3><p class="muted small">If something goes wrong, the remaining money freezes and an admin reads the contract and the evidence: release, refund, or split.</p></div>
+      <div class="value-card card"><h3>⭐ Reputations compound</h3><p class="muted small">Both sides rate each other after every gig and rental. Reliability shows on your profile — and low ratings get reviewed.</p></div>
+    </div>
+  </section>
+
+  <!-- 9 · The whole flow -->
+  <section class="flow container">
+    <hr class="dashed-rule">
+    <h2 class="section-title">How it works, <span class="hl">in one breath</span></h2>
+    <p class="muted">Post a gig → creators apply → you accept one and upload the contract → the full amount goes into escrow →
+    the shoot happens → 50% releases → the deliverable is approved → the last 50% releases → everyone rates everyone.
+    Gear rental follows the same skeleton, with inspections and a refundable deposit.</p>
+  </section>
+
+  <!-- 10 · CTA -->
+  <section class="about-cta">
+    <div class="container">
+      <h2>Be part of the fix.</h2>
+      <p class="muted">One account to give work, take work and rent gear. Your first few gigs every month are free.</p>
       <div class="hero-cta">
         <a class="btn" href="/pages/login.html?mode=register">Join StudioX <span class="arrow">&rarr;</span></a>
-        <a class="tlink" href="/pages/pricing.html">See pricing <span class="arrow">&#8599;</span></a>
+        <a class="btn secondary" href="/pages/gigs.html">Browse the board</a>
       </div>
-    </section>
-  </main>
+      <p class="muted small mvp-note">StudioX is a student-built marketplace MVP: Node.js, Express, PostgreSQL with Prisma and a vanilla
+      frontend. Payments are simulated — the escrow logic is real, the rupees aren't.</p>
+    </div>
+  </section>
 
+  <footer class="footer muted small">
+    <div class="container">StudioX · built by people who got ghosted, for people who shouldn't be.</div>
+  </footer>
+
+  </div>
+  </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="../js/api.js"></script>
   <script src="../js/main.js"></script>
-  <script src="../js/pages-init.js"></script>
+  <script src="../js/about.js"></script>
 </body>
 </html>
