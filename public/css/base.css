@@ -52,7 +52,7 @@ h3 { font-size: 1.15rem; }
   letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px;
 }
 .logo:hover { text-decoration: none; }
-.logo svg { display: block; }
+.logo svg, .logo img { display: block; }
 .logo .dot { color: var(--accent); }
 .nav-links { display: flex; gap: 8px; flex: 1; }
 .nav-links a {

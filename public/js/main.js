@@ -45,10 +45,7 @@ function toast(message, type = '') {
 }
 
 // ---------- Navbar ----------
-const LOGO_SVG = `<svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
-  <circle cx="13" cy="13" r="11" stroke="#0f172a" stroke-width="3.4"/>
-  <circle cx="13" cy="13" r="4.4" fill="#7f1d3b"/>
-</svg>`;
+const LOGO_MARK = '<img src="/logo-mark.png" width="26" height="26" alt="" aria-hidden="true">';
 
 const ARROW = '<span class="arrow">&rarr;</span>';
 const ARROW_UP = '<span class="arrow">&#8599;</span>';
@@ -82,7 +79,7 @@ function renderNavbar(active) {
     el.innerHTML = `
       <div class="navbar-inner">
         <button class="btn secondary sm hamburger" aria-label="Menu" onclick="document.body.classList.toggle('sidebar-open')">☰</button>
-        <a class="logo" href="/pages/index.html">${LOGO_SVG}<span>Studio<span class="dot">X</span></span></a>
+        <a class="logo" href="/pages/index.html">${LOGO_MARK}<span>Studio<span class="dot">X</span></span></a>
         <nav class="nav-links">
           ${link('/pages/index.html', 'Home', 'home')}
           ${link('/pages/gigs.html', 'Gig board', 'gigs')}
